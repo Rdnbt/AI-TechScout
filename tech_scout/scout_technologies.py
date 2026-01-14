@@ -343,32 +343,27 @@ def search_patents_google_fallback(
     year_start: int,
     limit: int,
 ) -> List[Dict]:
-    """Fallback patent search using USPTO PatentsView API (free, reliable)."""
+    """Fallback patent search using Lens.org free API."""
     
-    # Use USPTO PatentsView API - free and reliable
-    base_url = "https://api.patentsview.org/patents/query"
+    # Use Lens.org scholarly API - includes patents, free for research
+    base_url = "https://api.lens.org/patent/search"
     
-    # Simplify query for API
-    clean_query = " ".join(query.split()[:6])  # Use first 6 words
+    # Simplify query
+    clean_query = " ".join(query.split()[:8])
     
     payload = {
-        "q": {
-            "_and": [
-                {"_text_any": {"patent_abstract": clean_query}},
-                {"_gte": {"patent_date": f"{year_start}-01-01"}}
-            ]
+        "query": {
+            "bool": {
+                "must": [
+                    {"match": {"title": clean_query}}
+                ],
+                "filter": [
+                    {"range": {"date_published": {"gte": f"{year_start}-01-01"}}}
+                ]
+            }
         },
-        "f": [
-            "patent_number",
-            "patent_title", 
-            "patent_abstract",
-            "patent_date",
-            "assignee_organization",
-            "inventor_first_name",
-            "inventor_last_name"
-        ],
-        "o": {"per_page": limit},
-        "s": [{"patent_date": "desc"}]
+        "size": limit,
+        "sort": [{"date_published": "desc"}]
     }
     
     headers = {
@@ -376,37 +371,92 @@ def search_patents_google_fallback(
         "User-Agent": "AI-TechScout/1.0"
     }
     
-    response = requests.post(base_url, json=payload, headers=headers, timeout=30)
+    # Try Lens.org first
+    try:
+        response = requests.post(base_url, json=payload, headers=headers, timeout=15)
+        if response.status_code == 200:
+            data = response.json()
+            patents = data.get("data", [])
+            
+            formatted_patents = []
+            for patent in patents[:limit]:
+                formatted_patents.append({
+                    "patent_number": patent.get("lens_id", patent.get("doc_number", "")),
+                    "title": patent.get("title", ""),
+                    "abstract": (patent.get("abstract", "") or "")[:500],
+                    "date": patent.get("date_published", ""),
+                    "assignees": patent.get("applicants", []) or [],
+                    "inventors": [inv.get("name", "") for inv in patent.get("inventors", []) or []],
+                    "source": "lens_org",
+                })
+            
+            if formatted_patents:
+                return formatted_patents
+    except Exception:
+        pass
+    
+    # Fallback: Use EPO Open Patent Services (OPS) - free, no auth for basic search
+    try:
+        return search_patents_epo_ops(clean_query, year_start, limit)
+    except Exception as e:
+        print(f"  EPO OPS fallback failed: {e}")
+    
+    return []
+
+
+def search_patents_epo_ops(
+    query: str,
+    year_start: int,
+    limit: int,
+) -> List[Dict]:
+    """Search patents using EPO Open Patent Services (free, no auth required for basic)."""
+    import urllib.parse
+    
+    # EPO OPS uses CQL query language
+    # Search in title and abstract
+    encoded_query = urllib.parse.quote(query)
+    
+    # Use the published-data/search endpoint
+    url = f"https://ops.epo.org/3.2/rest-services/published-data/search?q=ti%3D{encoded_query}&Range=1-{min(limit, 25)}"
+    
+    headers = {
+        "Accept": "application/json",
+        "User-Agent": "AI-TechScout/1.0"
+    }
+    
+    response = requests.get(url, headers=headers, timeout=20)
+    
+    if response.status_code == 403:
+        # EPO requires OAuth for some endpoints, skip gracefully
+        return []
+    
     response.raise_for_status()
     
     data = response.json()
-    patents = data.get("patents", [])
+    
+    # Parse EPO response structure
+    search_result = data.get("ops:world-patent-data", {}).get("ops:biblio-search", {})
+    results = search_result.get("ops:search-result", {}).get("ops:publication-reference", [])
+    
+    if not isinstance(results, list):
+        results = [results] if results else []
     
     formatted_patents = []
-    for patent in patents:
-        # Extract assignees
-        assignees = []
-        if patent.get("assignees"):
-            for a in patent["assignees"]:
-                if a.get("assignee_organization"):
-                    assignees.append(a["assignee_organization"])
+    for result in results[:limit]:
+        doc_id = result.get("document-id", {})
+        if isinstance(doc_id, list):
+            doc_id = doc_id[0] if doc_id else {}
         
-        # Extract inventors
-        inventors = []
-        if patent.get("inventors"):
-            for inv in patent["inventors"]:
-                name = f"{inv.get('inventor_first_name', '')} {inv.get('inventor_last_name', '')}".strip()
-                if name:
-                    inventors.append(name)
+        patent_num = f"{doc_id.get('country', {}).get('$', '')}{doc_id.get('doc-number', {}).get('$', '')}"
         
         formatted_patents.append({
-            "patent_number": patent.get("patent_number", ""),
-            "title": patent.get("patent_title", ""),
-            "abstract": (patent.get("patent_abstract", "") or "")[:500],
-            "date": patent.get("patent_date", ""),
-            "assignees": assignees,
-            "inventors": inventors,
-            "source": "uspto_patentsview",
+            "patent_number": patent_num,
+            "title": "",  # Basic search doesn't return title
+            "abstract": "",
+            "date": doc_id.get("date", {}).get("$", ""),
+            "assignees": [],
+            "inventors": [],
+            "source": "epo_ops",
         })
     
     return formatted_patents

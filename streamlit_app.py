@@ -7,6 +7,8 @@ import plotly.graph_objects as go
 from datetime import datetime
 import sys
 import time
+import shutil
+import glob
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -367,6 +369,223 @@ if 'scouting_results' not in st.session_state:
     st.session_state.scouting_results = {}
 if 'current_tab' not in st.session_state:
     st.session_state.current_tab = "Discovery"
+if 'selected_archive_report' not in st.session_state:
+    st.session_state.selected_archive_report = None
+if 'deep_dive_history' not in st.session_state:
+    st.session_state.deep_dive_history = []
+if 'selected_concept' not in st.session_state:
+    st.session_state.selected_concept = None
+if 'pending_question' not in st.session_state:
+    st.session_state.pending_question = None
+
+# === DEEP DIVE HELPER FUNCTIONS ===
+def get_technology_context(tech_name, scouting_results):
+    """Extract relevant context for a specific technology from scouting results."""
+    context = {
+        "technology": None,
+        "related_papers": [],
+        "related_patents": [],
+        "related_news": [],
+        "trend_insights": {}
+    }
+    
+    # Find the technology
+    for tech in scouting_results.get("technologies", []):
+        if tech.get("name") == tech_name or tech.get("title", "").lower() == tech_name.lower():
+            context["technology"] = tech
+            break
+    
+    # Get raw data references
+    raw_data = scouting_results.get("raw_data", {})
+    tech_keywords = tech_name.lower().replace("_", " ").split()
+    
+    # Find related papers
+    for paper in raw_data.get("papers", [])[:50]:
+        title = paper.get("title", "").lower()
+        abstract = paper.get("abstract", "").lower()
+        if any(kw in title or kw in abstract for kw in tech_keywords):
+            context["related_papers"].append(paper)
+    
+    # Find related patents
+    for patent in raw_data.get("patents", [])[:50]:
+        title = patent.get("title", "").lower()
+        abstract = patent.get("abstract", "").lower()
+        if any(kw in title or kw in abstract for kw in tech_keywords):
+            context["related_patents"].append(patent)
+    
+    # Find related news
+    for news in raw_data.get("news", [])[:30]:
+        title = news.get("title", "").lower()
+        if any(kw in title for kw in tech_keywords):
+            context["related_news"].append(news)
+    
+    # Get trend insights
+    context["trend_insights"] = scouting_results.get("trend_insights", {})
+    
+    return context
+
+def generate_deep_dive_response(client, model, question, tech_context, scouting_results):
+    """Generate a response for a deep dive question using LLM."""
+    
+    # Build context string
+    tech = tech_context.get("technology", {})
+    tech_summary = f"""
+Technology: {tech.get('title', 'Unknown')}
+Description: {tech.get('description', 'N/A')}
+Key Capabilities: {', '.join(tech.get('key_capabilities', []))}
+Key Players: {', '.join(tech.get('key_players', []))}
+Maturity: {tech.get('maturity_estimate', 'N/A')}
+Potential Impact: {tech.get('potential_impact', 'N/A')}/10
+Timeline Estimate: {tech.get('timeline_estimate', 'N/A')} years
+Key References: {', '.join(tech.get('key_references', [])[:5])}
+"""
+    
+    # Add related research
+    papers_summary = ""
+    if tech_context.get("related_papers"):
+        papers_summary = "\n\nRelated Research Papers:\n"
+        for p in tech_context["related_papers"][:5]:
+            papers_summary += f"- {p.get('title', 'N/A')} ({p.get('year', 'N/A')}) - {p.get('authors', ['Unknown'])[0] if p.get('authors') else 'Unknown'} et al.\n"
+    
+    patents_summary = ""
+    if tech_context.get("related_patents"):
+        patents_summary = "\n\nRelated Patents:\n"
+        for p in tech_context["related_patents"][:5]:
+            patents_summary += f"- {p.get('title', 'N/A')} ({p.get('publication_number', 'N/A')})\n"
+    
+    news_summary = ""
+    if tech_context.get("related_news"):
+        news_summary = "\n\nRecent News:\n"
+        for n in tech_context["related_news"][:5]:
+            news_summary += f"- {n.get('title', 'N/A')} ({n.get('source', 'N/A')})\n"
+    
+    # Trend context
+    trends = tech_context.get("trend_insights", {})
+    trends_summary = ""
+    if trends:
+        major_trends = trends.get("major_trends", [])
+        if major_trends:
+            trends_summary = "\n\nMajor Industry Trends:\n"
+            for t in major_trends[:3]:
+                trends_summary += f"- {t.get('trend', '')}: {t.get('description', '')[:200]}...\n"
+    
+    system_prompt = f"""You are a technology analyst expert helping explore and elaborate on technology scouting findings. 
+You have access to detailed research data about various technologies. Provide insightful, specific, and actionable responses.
+
+Domain Context: {scouting_results.get('domain', 'Technology')}
+
+Current Technology Context:
+{tech_summary}
+{papers_summary}
+{patents_summary}
+{news_summary}
+{trends_summary}
+
+When answering:
+1. Be specific and cite sources when possible
+2. Provide actionable insights
+3. Connect to broader trends when relevant
+4. Suggest follow-up areas to explore
+5. Use bullet points for clarity"""
+
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": question}
+            ],
+            temperature=0.7,
+            max_tokens=1500
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Error generating response: {str(e)}"
+
+# === ARCHIVE HELPER FUNCTIONS ===
+def get_archive_dir(base_dir):
+    """Get the archive directory path."""
+    archive_dir = os.path.join(base_dir, "archive")
+    os.makedirs(archive_dir, exist_ok=True)
+    return archive_dir
+
+def archive_report(base_dir, domain_name=""):
+    """Archive current reports with timestamp."""
+    archive_dir = get_archive_dir(base_dir)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    # Clean domain name for filename
+    clean_domain = domain_name.replace(" ", "_").replace("/", "-")[:50] if domain_name else "report"
+    
+    archived_files = []
+    
+    # Files to archive
+    files_to_archive = [
+        ("scouting_report.md", f"{timestamp}_{clean_domain}_report.md"),
+        ("executive_summary.md", f"{timestamp}_{clean_domain}_summary.md"),
+        ("scouting_results.json", f"{timestamp}_{clean_domain}_results.json"),
+        ("batch_evaluation_results.json", f"{timestamp}_{clean_domain}_evaluations.json"),
+    ]
+    
+    for src_name, dst_name in files_to_archive:
+        src_path = os.path.join(base_dir, src_name)
+        if os.path.exists(src_path):
+            dst_path = os.path.join(archive_dir, dst_name)
+            shutil.copy2(src_path, dst_path)
+            archived_files.append(dst_name)
+    
+    # Create metadata file
+    if archived_files:
+        metadata = {
+            "timestamp": timestamp,
+            "datetime": datetime.now().isoformat(),
+            "domain": domain_name,
+            "files": archived_files
+        }
+        meta_path = os.path.join(archive_dir, f"{timestamp}_{clean_domain}_metadata.json")
+        with open(meta_path, "w") as f:
+            json.dump(metadata, f, indent=2)
+    
+    return archived_files
+
+def list_archived_reports(base_dir):
+    """List all archived reports with their metadata."""
+    archive_dir = get_archive_dir(base_dir)
+    reports = []
+    
+    # Find all metadata files
+    meta_files = glob.glob(os.path.join(archive_dir, "*_metadata.json"))
+    
+    for meta_path in sorted(meta_files, reverse=True):  # Most recent first
+        try:
+            with open(meta_path, "r") as f:
+                metadata = json.load(f)
+            metadata["meta_path"] = meta_path
+            reports.append(metadata)
+        except Exception:
+            pass
+    
+    return reports
+
+def load_archived_report(base_dir, timestamp, domain_clean):
+    """Load an archived report by timestamp."""
+    archive_dir = get_archive_dir(base_dir)
+    report_path = os.path.join(archive_dir, f"{timestamp}_{domain_clean}_report.md")
+    
+    if os.path.exists(report_path):
+        with open(report_path, "r") as f:
+            return f.read()
+    return None
+
+def delete_archived_report(base_dir, timestamp, domain_clean):
+    """Delete all files associated with an archived report."""
+    archive_dir = get_archive_dir(base_dir)
+    pattern = os.path.join(archive_dir, f"{timestamp}_{domain_clean}_*")
+    deleted = []
+    for f in glob.glob(pattern):
+        os.remove(f)
+        deleted.append(os.path.basename(f))
+    return deleted
 
 # Sidebar Configuration
 with st.sidebar:
@@ -533,7 +752,7 @@ with tab1:
                             search_queries=search_queries,
                             skip_search=False,
                             num_reflections=2,
-                            year_lookback=3
+                            year_lookback=2  # Search 2024-2026 (last 2 years)
                         )
                         
                         st.session_state.scouting_results = results
@@ -568,6 +787,140 @@ with tab1:
                 
                 with st.expander("🔍 View Raw JSON Data"):
                     st.json(st.session_state.technologies)
+                
+                # === DEEP DIVE SECTION ===
+                st.markdown('<div style="height: 32px;"></div>', unsafe_allow_html=True)
+                st.markdown('<h3 style="font-size: 1.3rem; margin-bottom: 16px;">🔬 Deep Dive Explorer</h3>', unsafe_allow_html=True)
+                
+                st.markdown("""
+                <div class="glass-card" style="margin-bottom: 16px;">
+                    <p style="color: #888; margin: 0;">Select a technology and ask questions to explore it further. Get deeper insights, related research, competitive analysis, and more.</p>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # Technology selector
+                tech_options = ["— Select a technology —"] + [t.get("title", t.get("name", "Unknown")) for t in st.session_state.technologies]
+                
+                col_tech, col_clear = st.columns([4, 1])
+                with col_tech:
+                    selected_tech_display = st.selectbox(
+                        "🎯 Focus Technology",
+                        options=tech_options,
+                        key="deep_dive_tech_selector"
+                    )
+                with col_clear:
+                    st.markdown('<div style="height: 28px;"></div>', unsafe_allow_html=True)
+                    if st.button("🗑️ Clear Chat", use_container_width=True):
+                        st.session_state.deep_dive_history = []
+                        st.rerun()
+                
+                if selected_tech_display != "— Select a technology —":
+                    # Find the actual technology
+                    selected_tech = None
+                    for t in st.session_state.technologies:
+                        if t.get("title") == selected_tech_display or t.get("name") == selected_tech_display:
+                            selected_tech = t
+                            break
+                    
+                    if selected_tech:
+                        # Show technology summary
+                        with st.expander("📋 Technology Overview", expanded=True):
+                            col_a, col_b = st.columns(2)
+                            with col_a:
+                                st.markdown(f"**Description:** {selected_tech.get('description', 'N/A')[:300]}...")
+                                st.markdown(f"**Maturity:** {selected_tech.get('maturity_estimate', 'N/A')}")
+                                st.markdown(f"**Timeline:** ~{selected_tech.get('timeline_estimate', 'N/A')} years")
+                            with col_b:
+                                st.markdown(f"**Key Players:** {', '.join(selected_tech.get('key_players', ['N/A'])[:4])}")
+                                st.markdown(f"**Impact Score:** {selected_tech.get('potential_impact', 'N/A')}/10")
+                                st.markdown(f"**Strategic Relevance:** {selected_tech.get('strategic_relevance', 'N/A')}/10")
+                        
+                        # Quick question buttons
+                        st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)
+                        st.markdown("**💡 Quick Questions:**")
+                        
+                        quick_q_col1, quick_q_col2, quick_q_col3, quick_q_col4 = st.columns(4)
+                        
+                        quick_questions = [
+                            ("🏢 Key Players", f"Who are the main companies and research institutions working on {selected_tech_display}? What are their recent developments?"),
+                            ("📈 Market Trends", f"What are the market trends and growth projections for {selected_tech_display}? What's driving adoption?"),
+                            ("⚠️ Risks", f"What are the main risks, challenges, and barriers to adoption for {selected_tech_display}?"),
+                            ("🔮 Future", f"What is the 3-5 year outlook for {selected_tech_display}? What breakthroughs should we watch for?"),
+                        ]
+                        
+                        for i, (col, (btn_label, question)) in enumerate(zip([quick_q_col1, quick_q_col2, quick_q_col3, quick_q_col4], quick_questions)):
+                            with col:
+                                if st.button(btn_label, key=f"quick_q_{i}", use_container_width=True):
+                                    st.session_state.pending_question = question
+                        
+                        # Custom question input
+                        st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)
+                        
+                        col_input, col_send = st.columns([5, 1])
+                        with col_input:
+                            user_question = st.text_input(
+                                "Ask a question",
+                                placeholder=f"e.g., How does {selected_tech_display} compare to alternatives?",
+                                key="deep_dive_question",
+                                label_visibility="collapsed"
+                            )
+                        with col_send:
+                            send_btn = st.button("🚀 Ask", use_container_width=True, type="primary")
+                        
+                        # Handle pending question from quick buttons
+                        if hasattr(st.session_state, 'pending_question') and st.session_state.pending_question:
+                            user_question = st.session_state.pending_question
+                            st.session_state.pending_question = None
+                            send_btn = True
+                        
+                        # Process question
+                        if send_btn and user_question:
+                            with st.spinner("🤔 Analyzing..."):
+                                # Get technology context
+                                tech_context = get_technology_context(
+                                    selected_tech.get("name", ""),
+                                    st.session_state.scouting_results
+                                )
+                                
+                                # Generate response
+                                client, model_name = create_client(selected_model)
+                                response = generate_deep_dive_response(
+                                    client=client,
+                                    model=selected_model,
+                                    question=user_question,
+                                    tech_context=tech_context,
+                                    scouting_results=st.session_state.scouting_results
+                                )
+                                
+                                # Add to history
+                                st.session_state.deep_dive_history.append({
+                                    "technology": selected_tech_display,
+                                    "question": user_question,
+                                    "response": response,
+                                    "timestamp": datetime.now().isoformat()
+                                })
+                        
+                        # Display conversation history
+                        if st.session_state.deep_dive_history:
+                            st.markdown('<div style="height: 24px;"></div>', unsafe_allow_html=True)
+                            st.markdown("### 💬 Exploration History")
+                            
+                            for i, entry in enumerate(reversed(st.session_state.deep_dive_history)):
+                                with st.container():
+                                    st.markdown(f"""
+                                    <div class="glass-card" style="margin-bottom: 16px;">
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                            <span style="color: #667eea; font-weight: 600;">🎯 {entry['technology']}</span>
+                                            <span style="color: #666; font-size: 0.8rem;">{entry['timestamp'][:16].replace('T', ' ')}</span>
+                                        </div>
+                                        <div style="background: rgba(102, 126, 234, 0.1); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                                            <strong style="color: #fff;">Q:</strong> <span style="color: #ccc;">{entry['question']}</span>
+                                        </div>
+                                    </div>
+                                    """, unsafe_allow_html=True)
+                                    
+                                    st.markdown(entry['response'])
+                                    st.markdown("---")
             else:
                 st.info("No technologies discovered in this scan.")
         else:
@@ -739,81 +1092,218 @@ with tab2:
 
 # === TAB 3: REPORT ===
 with tab3:
-    st.markdown('<h2 style="font-size: 1.5rem; margin-bottom: 24px;">📄 Generate Report</h2>', unsafe_allow_html=True)
+    # Sub-tabs for Generate and Archive
+    report_tab1, report_tab2 = st.tabs(["✨ Generate New", "📚 Report Archive"])
     
-    col_info, col_action = st.columns([2, 1])
-    
-    with col_info:
-        st.markdown("""
-        <div class="glass-card">
-            <h4 style="margin-top: 0; color: #fff;">📊 What's Included</h4>
-            <ul style="color: #888; line-height: 2;">
-                <li>Executive Summary for Leadership</li>
-                <li>Technology Deep-Dives & Analysis</li>
-                <li>Strategic Recommendations</li>
-                <li>Competitive Landscape Overview</li>
-                <li>Investment Priority Matrix</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col_action:
-        st.markdown('<div class="glass-card" style="text-align: center;">', unsafe_allow_html=True)
-        st.markdown('<div style="font-size: 48px; margin-bottom: 16px;">📝</div>', unsafe_allow_html=True)
+    with report_tab1:
+        st.markdown('<h2 style="font-size: 1.5rem; margin-bottom: 24px;">📄 Generate Report</h2>', unsafe_allow_html=True)
         
-        tech_count = len(st.session_state.technologies)
-        eval_count = len(st.session_state.evaluations)
-        st.markdown(f'<p style="color: #888; margin-bottom: 16px;">{tech_count} technologies • {eval_count} evaluations</p>', unsafe_allow_html=True)
+        col_info, col_action = st.columns([2, 1])
         
-        generate_btn = st.button("✨ Generate Report", use_container_width=True, type="primary")
-        st.markdown('</div>', unsafe_allow_html=True)
+        with col_info:
+            st.markdown("""
+            <div class="glass-card">
+                <h4 style="margin-top: 0; color: #fff;">📊 What's Included</h4>
+                <ul style="color: #888; line-height: 2;">
+                    <li>Executive Summary for Leadership</li>
+                    <li>Technology Deep-Dives & Analysis</li>
+                    <li>Strategic Recommendations</li>
+                    <li>Competitive Landscape Overview</li>
+                    <li>Investment Priority Matrix</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col_action:
+            st.markdown('<div class="glass-card" style="text-align: center;">', unsafe_allow_html=True)
+            st.markdown('<div style="font-size: 48px; margin-bottom: 16px;">📝</div>', unsafe_allow_html=True)
+            
+            tech_count = len(st.session_state.technologies)
+            eval_count = len(st.session_state.evaluations)
+            st.markdown(f'<p style="color: #888; margin-bottom: 16px;">{tech_count} technologies • {eval_count} evaluations</p>', unsafe_allow_html=True)
+            
+            auto_archive = st.checkbox("📦 Auto-archive after generation", value=True)
+            generate_btn = st.button("✨ Generate Report", use_container_width=True, type="primary")
+            st.markdown('</div>', unsafe_allow_html=True)
+        
+        if generate_btn:
+            if not st.session_state.scouting_results:
+                st.error("❌ No scouting results available. Please run a Discovery mission first.")
+            else:
+                with st.spinner("✍️ Crafting your report..."):
+                    client, model_name = create_client(selected_model)
+                    
+                    report_path = generate_scouting_report(
+                        base_dir=output_dir,
+                        client=client,
+                        model=selected_model,
+                        scouting_results=st.session_state.scouting_results,
+                        evaluations=st.session_state.evaluations,
+                        output_format="markdown"
+                    )
+                    
+                    # Auto-archive if enabled
+                    domain_name = st.session_state.scouting_results.get("domain", "Unknown")
+                    if auto_archive:
+                        archived = archive_report(output_dir, domain_name)
+                        if archived:
+                            st.info(f"📦 Report archived: {len(archived)} files saved to archive/")
+                    
+                    st.success(f"✅ Report generated successfully!")
+                    st.balloons()
+                    
+                    if os.path.exists(report_path):
+                        with open(report_path, "r") as f:
+                            report_content = f.read()
+                        
+                        st.markdown('<div style="height: 24px;"></div>', unsafe_allow_html=True)
+                        
+                        # Download buttons
+                        dl1, dl2, dl3 = st.columns([1, 1, 2])
+                        with dl1:
+                            timestamp_str = datetime.now().strftime("%Y%m%d")
+                            st.download_button(
+                                label="⬇️ Download .md",
+                                data=report_content,
+                                file_name=f"techscout_{domain_name.replace(' ', '_')}_{timestamp_str}.md",
+                                mime="text/markdown",
+                                use_container_width=True
+                            )
+                        with dl2:
+                            st.download_button(
+                                label="⬇️ Download .txt",
+                                data=report_content,
+                                file_name=f"techscout_{domain_name.replace(' ', '_')}_{timestamp_str}.txt",
+                                mime="text/plain",
+                                use_container_width=True
+                            )
+                        
+                        st.markdown('<div style="height: 24px;"></div>', unsafe_allow_html=True)
+                        
+                        # Display report in styled container
+                        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+                        st.markdown(report_content)
+                        st.markdown('</div>', unsafe_allow_html=True)
     
-    if generate_btn:
-        if not st.session_state.scouting_results:
-            st.error("❌ No scouting results available. Please run a Discovery mission first.")
+    # === REPORT ARCHIVE TAB ===
+    with report_tab2:
+        st.markdown('<h2 style="font-size: 1.5rem; margin-bottom: 24px;">📚 Report Archive</h2>', unsafe_allow_html=True)
+        
+        # Get archived reports
+        archived_reports = list_archived_reports(output_dir)
+        
+        if not archived_reports:
+            st.markdown("""
+            <div class="glass-card" style="text-align: center; padding: 48px;">
+                <div style="font-size: 64px; margin-bottom: 16px;">📭</div>
+                <h3 style="color: #fff; margin-bottom: 8px;">No Archived Reports</h3>
+                <p style="color: #888;">Generate a report with auto-archive enabled, or manually archive existing reports.</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Manual archive button
+            if os.path.exists(os.path.join(output_dir, "scouting_report.md")):
+                st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)
+                if st.button("📦 Archive Current Report", use_container_width=True):
+                    domain_name = st.session_state.scouting_results.get("domain", "Manual_Archive")
+                    archived = archive_report(output_dir, domain_name)
+                    if archived:
+                        st.success(f"✅ Archived {len(archived)} files!")
+                        st.rerun()
         else:
-            with st.spinner("✍️ Crafting your report..."):
-                client, model_name = create_client(selected_model)
+            # Archive stats
+            st.markdown(f"""
+            <div class="glass-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <span style="font-size: 2rem; font-weight: bold; color: #667eea;">{len(archived_reports)}</span>
+                        <span style="color: #888; margin-left: 8px;">archived reports</span>
+                    </div>
+                    <div style="color: #888;">
+                        📁 {get_archive_dir(output_dir)}
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)
+            
+            # Report list
+            for i, report in enumerate(archived_reports):
+                timestamp = report.get("timestamp", "unknown")
+                domain = report.get("domain", "Unknown Domain")
+                dt_str = report.get("datetime", "")
+                files = report.get("files", [])
                 
-                report_path = generate_scouting_report(
-                    base_dir=output_dir,
-                    client=client,
-                    model=selected_model,
-                    scouting_results=st.session_state.scouting_results,
-                    evaluations=st.session_state.evaluations,
-                    output_format="markdown"
-                )
-                st.success(f"✅ Report generated successfully!")
-                st.balloons()
+                # Parse datetime for display
+                try:
+                    dt = datetime.fromisoformat(dt_str)
+                    date_display = dt.strftime("%B %d, %Y at %I:%M %p")
+                except:
+                    date_display = dt_str
                 
-                if os.path.exists(report_path):
-                    with open(report_path, "r") as f:
-                        report_content = f.read()
+                # Clean domain for file lookup
+                domain_clean = domain.replace(" ", "_").replace("/", "-")[:50] if domain else "report"
+                
+                with st.expander(f"📄 **{domain}** — {date_display}", expanded=(i == 0)):
+                    col1, col2 = st.columns([3, 1])
                     
+                    with col1:
+                        st.markdown(f"**Domain:** {domain}")
+                        st.markdown(f"**Date:** {date_display}")
+                        st.markdown(f"**Files:** {', '.join(files)}")
+                    
+                    with col2:
+                        # View button
+                        if st.button("👁️ View", key=f"view_{timestamp}", use_container_width=True):
+                            st.session_state.selected_archive_report = (timestamp, domain_clean, domain)
+                        
+                        # Download button
+                        report_content = load_archived_report(output_dir, timestamp, domain_clean)
+                        if report_content:
+                            st.download_button(
+                                label="⬇️ Download",
+                                data=report_content,
+                                file_name=f"{timestamp}_{domain_clean}_report.md",
+                                mime="text/markdown",
+                                use_container_width=True,
+                                key=f"dl_{timestamp}"
+                            )
+                        
+                        # Delete button
+                        if st.button("🗑️ Delete", key=f"del_{timestamp}", use_container_width=True, type="secondary"):
+                            deleted = delete_archived_report(output_dir, timestamp, domain_clean)
+                            st.success(f"Deleted {len(deleted)} files")
+                            st.rerun()
+            
+            # Display selected report
+            if st.session_state.selected_archive_report:
+                timestamp, domain_clean, domain_display = st.session_state.selected_archive_report
+                report_content = load_archived_report(output_dir, timestamp, domain_clean)
+                
+                if report_content:
                     st.markdown('<div style="height: 24px;"></div>', unsafe_allow_html=True)
+                    st.markdown(f'<h3 style="color: #667eea;">📄 {domain_display}</h3>', unsafe_allow_html=True)
                     
-                    # Download buttons
-                    dl1, dl2, dl3 = st.columns([1, 1, 2])
-                    with dl1:
-                        st.download_button(
-                            label="⬇️ Download .md",
-                            data=report_content,
-                            file_name="techscout_report.md",
-                            mime="text/markdown",
-                            use_container_width=True
-                        )
-                    with dl2:
-                        st.download_button(
-                            label="⬇️ Download .txt",
-                            data=report_content,
-                            file_name="techscout_report.txt",
-                            mime="text/plain",
-                            use_container_width=True
-                        )
+                    if st.button("✖️ Close Preview", use_container_width=False):
+                        st.session_state.selected_archive_report = None
+                        st.rerun()
                     
-                    st.markdown('<div style="height: 24px;"></div>', unsafe_allow_html=True)
-                    
-                    # Display report in styled container
                     st.markdown('<div class="glass-card">', unsafe_allow_html=True)
                     st.markdown(report_content)
                     st.markdown('</div>', unsafe_allow_html=True)
+            
+            # Manual archive section
+            st.markdown('<div style="height: 24px;"></div>', unsafe_allow_html=True)
+            st.markdown("---")
+            if os.path.exists(os.path.join(output_dir, "scouting_report.md")):
+                col_a, col_b = st.columns([3, 1])
+                with col_a:
+                    st.markdown("**Current working report** can be manually archived:")
+                with col_b:
+                    if st.button("📦 Archive Now", use_container_width=True):
+                        domain_name = st.session_state.scouting_results.get("domain", "Manual_Archive")
+                        archived = archive_report(output_dir, domain_name)
+                        if archived:
+                            st.success(f"✅ Archived {len(archived)} files!")
+                            st.rerun()
