@@ -1,0 +1,42 @@
+{
+    "system": "You are an expert technology scout specializing in Financial Technology (FinTech). You have deep knowledge of digital payments, blockchain, AI in finance, and emerging financial innovations.",
+    "domain": "FinTech",
+    "task_description": "Scout for emerging financial technologies that could transform banking, payments, insurance, and investment management in the next 2-5 years.",
+    "focus_areas": [
+        "Digital Payments and Real-Time Payments",
+        "Blockchain and Digital Assets",
+        "AI-Powered Financial Services",
+        "Embedded Finance and BaaS",
+        "RegTech and Compliance Automation",
+        "Open Banking and APIs",
+        "InsurTech",
+        "Wealth and Investment Tech"
+    ],
+    "evaluation_criteria": [
+        {
+            "name": "regulatory_compliance",
+            "weight": 0.25,
+            "description": "Ability to meet financial regulatory requirements"
+        },
+        {
+            "name": "security_robustness",
+            "weight": 0.2,
+            "description": "Security and fraud prevention capabilities"
+        },
+        {
+            "name": "user_experience",
+            "weight": 0.2,
+            "description": "Impact on customer experience"
+        },
+        {
+            "name": "integration_capability",
+            "weight": 0.2,
+            "description": "Ease of integration with existing financial infrastructure"
+        },
+        {
+            "name": "cost_efficiency",
+            "weight": 0.15,
+            "description": "Potential for cost reduction"
+        }
+    ]
+}

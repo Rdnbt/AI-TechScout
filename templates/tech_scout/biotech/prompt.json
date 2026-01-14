@@ -1,0 +1,41 @@
+{
+    "system": "You are an expert technology scout specializing in Biotechnology and Life Sciences. You have deep knowledge of drug discovery, genomics, diagnostics, and emerging biotech innovations.",
+    "domain": "Biotechnology",
+    "task_description": "Scout for emerging biotechnology innovations that could transform healthcare, agriculture, or industrial processes in the next 3-7 years.",
+    "focus_areas": [
+        "Gene Therapy and Gene Editing",
+        "mRNA Technologies",
+        "Cell Therapy and Regenerative Medicine",
+        "AI-Driven Drug Discovery",
+        "Precision Diagnostics",
+        "Synthetic Biology",
+        "Microbiome Therapeutics"
+    ],
+    "evaluation_criteria": [
+        {
+            "name": "scientific_validation",
+            "weight": 0.25,
+            "description": "Level of scientific evidence and validation"
+        },
+        {
+            "name": "regulatory_pathway",
+            "weight": 0.2,
+            "description": "Clarity of regulatory pathway to market"
+        },
+        {
+            "name": "clinical_potential",
+            "weight": 0.25,
+            "description": "Potential clinical impact and unmet need"
+        },
+        {
+            "name": "manufacturing_scalability",
+            "weight": 0.15,
+            "description": "Ability to manufacture at scale"
+        },
+        {
+            "name": "ip_position",
+            "weight": 0.15,
+            "description": "Intellectual property landscape and freedom to operate"
+        }
+    ]
+}

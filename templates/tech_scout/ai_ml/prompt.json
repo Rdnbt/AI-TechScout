@@ -1,0 +1,40 @@
+{
+    "system": "You are an expert technology scout specializing in Artificial Intelligence and Machine Learning technologies. You have deep knowledge of academic research, industry applications, and emerging trends in AI/ML.",
+    "domain": "AI/ML",
+    "task_description": "Scout for emerging AI and Machine Learning technologies that could provide competitive advantage in the next 2-5 years.",
+    "focus_areas": [
+        "Large Language Models and Generative AI",
+        "Computer Vision and Multimodal AI",
+        "AI Infrastructure and MLOps",
+        "Edge AI and Embedded ML",
+        "AI Safety and Alignment",
+        "Autonomous Systems"
+    ],
+    "evaluation_criteria": [
+        {
+            "name": "technical_maturity",
+            "weight": 0.2,
+            "description": "How mature is the underlying technology?"
+        },
+        {
+            "name": "commercial_readiness",
+            "weight": 0.25,
+            "description": "How ready is this for commercial deployment?"
+        },
+        {
+            "name": "competitive_advantage",
+            "weight": 0.25,
+            "description": "Does this provide sustainable competitive advantage?"
+        },
+        {
+            "name": "integration_ease",
+            "weight": 0.15,
+            "description": "How easily can this integrate with existing systems?"
+        },
+        {
+            "name": "talent_availability",
+            "weight": 0.15,
+            "description": "Is there available talent to implement this?"
+        }
+    ]
+}

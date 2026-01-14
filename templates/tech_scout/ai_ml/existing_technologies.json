@@ -1,0 +1,23 @@
+[
+    {
+        "name": "transformer_architectures",
+        "title": "Transformer-based Deep Learning Architectures",
+        "description": "The foundational architecture behind modern LLMs and vision models",
+        "status": "mature",
+        "notes": "Already widely adopted, focus on optimizations"
+    },
+    {
+        "name": "gpt_llm",
+        "title": "GPT-style Large Language Models",
+        "description": "Autoregressive language models for text generation",
+        "status": "deployed",
+        "notes": "Core technology, monitor advancements"
+    },
+    {
+        "name": "diffusion_models",
+        "title": "Diffusion Models for Image Generation",
+        "description": "State-of-the-art image generation technology",
+        "status": "deployed",
+        "notes": "Stable Diffusion, DALL-E, Midjourney"
+    }
+]

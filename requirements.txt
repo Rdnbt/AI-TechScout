@@ -4,10 +4,12 @@ aider-chat
 backoff
 openai
 google-generativeai
+
 # Viz
 matplotlib
 pypdf
 pymupdf4llm
+
 # Common Requirements
 torch
 numpy
@@ -16,3 +18,7 @@ datasets
 tiktoken
 wandb
 tqdm
+
+# Tech Scouting Requirements
+requests
+newsapi-python

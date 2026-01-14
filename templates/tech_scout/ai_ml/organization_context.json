@@ -1,0 +1,24 @@
+{
+    "industry": "Technology",
+    "company_size": "enterprise",
+    "current_capabilities": [
+        "Cloud infrastructure",
+        "Data engineering",
+        "Traditional machine learning",
+        "Web and mobile development"
+    ],
+    "strategic_priorities": [
+        "AI-powered product innovation",
+        "Operational efficiency through automation",
+        "Customer experience enhancement",
+        "Data-driven decision making"
+    ],
+    "risk_tolerance": "moderate",
+    "investment_horizon": "2-4 years",
+    "constraints": [
+        "Data privacy and compliance requirements",
+        "Integration with legacy systems",
+        "Limited ML engineering talent"
+    ],
+    "budget_range": "medium_to_high"
+}

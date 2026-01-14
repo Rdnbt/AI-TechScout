@@ -1,0 +1,25 @@
+{
+    "industry": "Biotechnology / Pharmaceuticals",
+    "company_size": "mid_to_large",
+    "current_capabilities": [
+        "Traditional small molecule drug discovery",
+        "Clinical trial management",
+        "Manufacturing and quality control",
+        "Regulatory affairs expertise"
+    ],
+    "strategic_priorities": [
+        "Expand into novel therapeutic modalities",
+        "Accelerate drug discovery timelines",
+        "Develop precision medicine capabilities",
+        "Build digital health portfolio"
+    ],
+    "risk_tolerance": "moderate_to_high",
+    "investment_horizon": "5-10 years",
+    "constraints": [
+        "FDA and regulatory compliance",
+        "Long development timelines",
+        "High capital requirements",
+        "Complex IP landscape"
+    ],
+    "budget_range": "high"
+}

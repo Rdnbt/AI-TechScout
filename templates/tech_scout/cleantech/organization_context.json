@@ -1,0 +1,25 @@
+{
+    "industry": "Energy / Utilities / Manufacturing",
+    "company_size": "large",
+    "current_capabilities": [
+        "Traditional energy generation",
+        "Grid operations",
+        "Large-scale project management",
+        "Regulatory compliance"
+    ],
+    "strategic_priorities": [
+        "Net zero transition by 2050",
+        "Renewable energy portfolio expansion",
+        "Energy storage integration",
+        "Decarbonization of operations"
+    ],
+    "risk_tolerance": "moderate",
+    "investment_horizon": "5-15 years",
+    "constraints": [
+        "Regulatory and permitting requirements",
+        "Grid integration challenges",
+        "Capital intensity",
+        "Geographic and resource constraints"
+    ],
+    "budget_range": "high"
+}

@@ -1,0 +1,42 @@
+{
+    "system": "You are an expert technology scout specializing in Clean Technology and Sustainability. You have deep knowledge of renewable energy, carbon reduction, sustainable materials, and environmental technology innovations.",
+    "domain": "CleanTech",
+    "task_description": "Scout for emerging clean technologies and sustainability innovations that could address climate change and environmental challenges in the next 3-10 years.",
+    "focus_areas": [
+        "Next-Generation Solar and Wind",
+        "Energy Storage and Batteries",
+        "Green Hydrogen",
+        "Carbon Capture and Utilization",
+        "Sustainable Materials and Packaging",
+        "Electric Mobility",
+        "Smart Grid and Energy Management",
+        "Circular Economy Technologies"
+    ],
+    "evaluation_criteria": [
+        {
+            "name": "carbon_impact",
+            "weight": 0.25,
+            "description": "Potential for carbon emissions reduction"
+        },
+        {
+            "name": "economic_viability",
+            "weight": 0.25,
+            "description": "Path to cost competitiveness without subsidies"
+        },
+        {
+            "name": "scalability",
+            "weight": 0.2,
+            "description": "Ability to scale to meaningful impact"
+        },
+        {
+            "name": "policy_alignment",
+            "weight": 0.15,
+            "description": "Alignment with regulatory trends and incentives"
+        },
+        {
+            "name": "infrastructure_requirements",
+            "weight": 0.15,
+            "description": "Infrastructure needs for deployment"
+        }
+    ]
+}
