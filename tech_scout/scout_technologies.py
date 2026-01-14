@@ -136,7 +136,7 @@ In <JSON>, provide:
 # =============================================================================
 
 @backoff.on_exception(
-    backoff.expo, requests.exceptions.RequestException, max_tries=5
+    backoff.expo, requests.exceptions.RequestException, max_tries=3
 )
 def search_papers(
     query: str,
@@ -146,18 +146,35 @@ def search_papers(
     fields_of_study: Optional[List[str]] = None,
 ) -> List[Dict]:
     """
-    Search for academic papers using Semantic Scholar API.
-    
-    Args:
-        query: Search query string
-        year_start: Start year for filtering
-        year_end: End year for filtering  
-        limit: Maximum number of results
-        fields_of_study: Filter by fields (e.g., ["Computer Science", "Medicine"])
-    
-    Returns:
-        List of paper dictionaries with title, abstract, authors, etc.
+    Search for academic papers. Uses OpenAlex (free) as primary,
+    falls back to Semantic Scholar if S2_API_KEY is set.
     """
+    # Try OpenAlex first (free, no API key needed)
+    try:
+        papers = search_papers_openalex(query, year_start, year_end, limit)
+        if papers:
+            return papers
+    except Exception as e:
+        print(f"  OpenAlex search failed: {e}")
+    
+    # Fall back to Semantic Scholar if API key is set
+    if S2_API_KEY:
+        try:
+            return search_papers_semantic_scholar(query, year_start, year_end, limit, fields_of_study)
+        except Exception as e:
+            print(f"  Semantic Scholar search failed: {e}")
+    
+    return []
+
+
+def search_papers_semantic_scholar(
+    query: str,
+    year_start: Optional[int] = None,
+    year_end: Optional[int] = None,
+    limit: int = 50,
+    fields_of_study: Optional[List[str]] = None,
+) -> List[Dict]:
+    """Search using Semantic Scholar API (requires S2_API_KEY for reliable access)."""
     if year_start is None:
         year_start = datetime.now().year - 3
     if year_end is None:
@@ -168,24 +185,21 @@ def search_papers(
     params = {
         "query": query,
         "year": f"{year_start}-{year_end}",
-        "limit": limit,
-        "fields": "title,abstract,authors,year,citationCount,venue,openAccessPdf,fieldsOfStudy,publicationDate",
+        "limit": min(limit, 100),
+        "fields": "title,abstract,authors,year,citationCount,venue,fieldsOfStudy,publicationDate",
     }
     
     if fields_of_study:
         params["fieldsOfStudy"] = ",".join(fields_of_study)
     
-    headers = {}
-    if S2_API_KEY:
-        headers["x-api-key"] = S2_API_KEY
+    headers = {"x-api-key": S2_API_KEY} if S2_API_KEY else {}
     
-    response = requests.get(base_url, params=params, headers=headers)
+    response = requests.get(base_url, params=params, headers=headers, timeout=30)
     response.raise_for_status()
     
     data = response.json()
     papers = data.get("data", [])
     
-    # Format papers for analysis
     formatted_papers = []
     for paper in papers:
         formatted_papers.append({
@@ -203,7 +217,7 @@ def search_papers(
 
 
 @backoff.on_exception(
-    backoff.expo, requests.exceptions.RequestException, max_tries=5
+    backoff.expo, requests.exceptions.RequestException, max_tries=3
 )
 def search_papers_openalex(
     query: str,
@@ -212,7 +226,8 @@ def search_papers_openalex(
     limit: int = 50,
 ) -> List[Dict]:
     """
-    Search for academic papers using OpenAlex API (free alternative).
+    Search for academic papers using OpenAlex API (free, no key required).
+    https://docs.openalex.org/
     """
     if year_start is None:
         year_start = datetime.now().year - 3
@@ -221,14 +236,17 @@ def search_papers_openalex(
     
     base_url = "https://api.openalex.org/works"
     
+    # OpenAlex recommends adding email for polite pool (faster rate limits)
+    headers = {"User-Agent": "AI-TechScout/1.0 (Technology Scouting Tool)"}
+    
     params = {
         "search": query,
         "filter": f"publication_year:{year_start}-{year_end}",
-        "per_page": limit,
+        "per_page": min(limit, 200),
         "sort": "cited_by_count:desc",
     }
     
-    response = requests.get(base_url, params=params)
+    response = requests.get(base_url, params=params, headers=headers, timeout=30)
     response.raise_for_status()
     
     data = response.json()
@@ -236,25 +254,59 @@ def search_papers_openalex(
     
     formatted_papers = []
     for paper in papers:
-        formatted_papers.append({
-            "title": paper.get("title", ""),
-            "abstract": paper.get("abstract_inverted_index", {}),  # OpenAlex uses inverted index
-            "authors": [a.get("author", {}).get("display_name", "") 
-                       for a in paper.get("authorships", [])],
-            "year": paper.get("publication_year"),
-            "citations": paper.get("cited_by_count", 0),
-            "venue": paper.get("primary_location", {}).get("source", {}).get("display_name", ""),
-            "doi": paper.get("doi"),
-        })
+        try:
+            # Convert inverted index abstract to text
+            abstract = ""
+            abstract_inv = paper.get("abstract_inverted_index")
+            if abstract_inv and isinstance(abstract_inv, dict):
+                # Reconstruct abstract from inverted index
+                word_positions = []
+                for word, positions in abstract_inv.items():
+                    for pos in positions:
+                        word_positions.append((pos, word))
+                word_positions.sort()
+                abstract = " ".join(word for _, word in word_positions)
+            
+            # Safely get venue with multiple null checks
+            venue = ""
+            primary_loc = paper.get("primary_location")
+            if primary_loc and isinstance(primary_loc, dict):
+                source = primary_loc.get("source")
+                if source and isinstance(source, dict):
+                    venue = source.get("display_name", "") or ""
+            
+            # Safely get authors
+            authors = []
+            for authorship in paper.get("authorships", []) or []:
+                if authorship and isinstance(authorship, dict):
+                    author = authorship.get("author")
+                    if author and isinstance(author, dict):
+                        name = author.get("display_name", "")
+                        if name:
+                            authors.append(name)
+            
+            formatted_papers.append({
+                "title": paper.get("title", "") or "",
+                "abstract": abstract,
+                "authors": authors,
+                "year": paper.get("publication_year"),
+                "citations": paper.get("cited_by_count", 0) or 0,
+                "venue": venue,
+                "doi": paper.get("doi"),
+                "source": "openalex",
+            })
+        except Exception:
+            # Skip papers with malformed data
+            continue
     
     return formatted_papers
 
 # =============================================================================
-# PATENT SEARCH (using Google Patents via SerpAPI or free alternatives)
+# PATENT SEARCH
 # =============================================================================
 
 @backoff.on_exception(
-    backoff.expo, requests.exceptions.RequestException, max_tries=5
+    backoff.expo, requests.exceptions.RequestException, max_tries=3
 )
 def search_patents(
     query: str,
@@ -263,78 +315,21 @@ def search_patents(
     country: str = "US",
 ) -> List[Dict]:
     """
-    Search for patents. Uses SerpAPI if available, otherwise returns empty.
-    
-    For production use, consider:
-    - USPTO PatentsView API (free, US patents)
-    - EPO Open Patent Services (free with registration)
-    - Google Patents (via SerpAPI, paid)
+    Search for patents. Tries multiple sources.
     """
     if year_start is None:
         year_start = datetime.now().year - 5
     
-    # Try USPTO PatentsView API (free)
-    try:
-        return search_patents_uspto(query, year_start, limit)
-    except Exception as e:
-        print(f"USPTO search failed: {e}")
-    
-    # Fallback to SerpAPI if available
-    if SERPAPI_KEY:
+    # Try SerpAPI if available and configured (most reliable for patents)
+    if SERPAPI_KEY and SERPAPI_KEY not in ["", "your-serpapi-key-here"]:
         try:
             return search_patents_serpapi(query, year_start, limit, country)
         except Exception as e:
-            print(f"SerpAPI patent search failed: {e}")
+            print(f"  SerpAPI patent search failed: {e}")
     
-    print("Warning: No patent search available. Set SERPAPI_KEY for patent search.")
+    # Patents are optional - return empty if no API available
+    # Note: Free patent APIs are unreliable. For production, consider SerpAPI or PatSnap.
     return []
-
-
-def search_patents_uspto(
-    query: str,
-    year_start: int,
-    limit: int = 30,
-) -> List[Dict]:
-    """Search US patents using USPTO PatentsView API."""
-    base_url = "https://api.patentsview.org/patents/query"
-    
-    # PatentsView uses a specific query format
-    query_params = {
-        "q": json.dumps({
-            "_and": [
-                {"_text_any": {"patent_abstract": query}},
-                {"_gte": {"patent_date": f"{year_start}-01-01"}}
-            ]
-        }),
-        "f": json.dumps([
-            "patent_number", "patent_title", "patent_abstract",
-            "patent_date", "assignees", "inventors"
-        ]),
-        "o": json.dumps({"per_page": limit}),
-    }
-    
-    response = requests.get(base_url, params=query_params)
-    response.raise_for_status()
-    
-    data = response.json()
-    patents = data.get("patents", [])
-    
-    formatted_patents = []
-    for patent in patents:
-        assignees = patent.get("assignees", [])
-        inventors = patent.get("inventors", [])
-        
-        formatted_patents.append({
-            "patent_number": patent.get("patent_number", ""),
-            "title": patent.get("patent_title", ""),
-            "abstract": patent.get("patent_abstract", ""),
-            "date": patent.get("patent_date", ""),
-            "assignees": [a.get("assignee_organization", "") for a in assignees if a],
-            "inventors": [f"{i.get('inventor_first_name', '')} {i.get('inventor_last_name', '')}" 
-                         for i in inventors if i],
-        })
-    
-    return formatted_patents
 
 
 def search_patents_serpapi(
@@ -353,7 +348,7 @@ def search_patents_serpapi(
         "num": limit,
     }
     
-    response = requests.get(base_url, params=params)
+    response = requests.get(base_url, params=params, timeout=30)
     response.raise_for_status()
     
     data = response.json()
@@ -368,6 +363,7 @@ def search_patents_serpapi(
             "date": patent.get("publication_date", ""),
             "assignees": [patent.get("assignee", "")] if patent.get("assignee") else [],
             "inventors": patent.get("inventor", "").split(", ") if patent.get("inventor") else [],
+            "source": "serpapi",
         })
     
     return formatted_patents
@@ -377,7 +373,7 @@ def search_patents_serpapi(
 # =============================================================================
 
 @backoff.on_exception(
-    backoff.expo, requests.exceptions.RequestException, max_tries=5
+    backoff.expo, requests.exceptions.RequestException, max_tries=3
 )
 def search_news(
     query: str,
@@ -386,21 +382,71 @@ def search_news(
 ) -> List[Dict]:
     """
     Search for recent news articles about a technology topic.
-    Uses NewsAPI if available, otherwise returns placeholder.
+    Uses free sources first, then NewsAPI if configured.
     """
     # Calculate date range
     end_date = datetime.now()
     start_date = end_date - timedelta(days=days_back)
     
-    if GOOGLE_NEWS_API_KEY:
+    # Try Google News RSS (free, no API key)
+    try:
+        articles = search_news_google_rss(query, limit)
+        if articles:
+            return articles
+    except Exception as e:
+        print(f"  Google News RSS failed: {e}")
+    
+    # Try NewsAPI if configured
+    if GOOGLE_NEWS_API_KEY and GOOGLE_NEWS_API_KEY != "your-newsapi-key-here":
         try:
             return search_news_newsapi(query, start_date, end_date, limit)
         except Exception as e:
-            print(f"NewsAPI search failed: {e}")
+            print(f"  NewsAPI search failed: {e}")
     
-    # Return empty if no API available
-    print("Warning: No news API configured. Set GOOGLE_NEWS_API_KEY for news search.")
+    # Return empty - news is optional
     return []
+
+
+def search_news_google_rss(
+    query: str,
+    limit: int = 30,
+) -> List[Dict]:
+    """
+    Search news using Google News RSS feed (free, no API key).
+    """
+    import urllib.parse
+    
+    # Google News RSS endpoint
+    encoded_query = urllib.parse.quote(query)
+    url = f"https://news.google.com/rss/search?q={encoded_query}&hl=en-US&gl=US&ceid=US:en"
+    
+    headers = {"User-Agent": "AI-TechScout/1.0"}
+    response = requests.get(url, headers=headers, timeout=30)
+    response.raise_for_status()
+    
+    # Parse RSS XML
+    import xml.etree.ElementTree as ET
+    root = ET.fromstring(response.content)
+    
+    formatted_articles = []
+    items = root.findall(".//item")[:limit]
+    
+    for item in items:
+        title = item.find("title")
+        link = item.find("link")
+        pub_date = item.find("pubDate")
+        source = item.find("source")
+        
+        formatted_articles.append({
+            "title": title.text if title is not None else "",
+            "description": "",  # RSS doesn't include description
+            "source": source.text if source is not None else "Google News",
+            "author": "",
+            "published_at": pub_date.text if pub_date is not None else "",
+            "url": link.text if link is not None else "",
+        })
+    
+    return formatted_articles
 
 
 def search_news_newsapi(
@@ -409,7 +455,7 @@ def search_news_newsapi(
     end_date: datetime,
     limit: int,
 ) -> List[Dict]:
-    """Search news using NewsAPI."""
+    """Search news using NewsAPI (requires API key)."""
     base_url = "https://newsapi.org/v2/everything"
     
     params = {
@@ -417,11 +463,11 @@ def search_news_newsapi(
         "from": start_date.strftime("%Y-%m-%d"),
         "to": end_date.strftime("%Y-%m-%d"),
         "sortBy": "relevancy",
-        "pageSize": limit,
+        "pageSize": min(limit, 100),
         "apiKey": GOOGLE_NEWS_API_KEY,
     }
     
-    response = requests.get(base_url, params=params)
+    response = requests.get(base_url, params=params, timeout=30)
     response.raise_for_status()
     
     data = response.json()
@@ -437,6 +483,8 @@ def search_news_newsapi(
             "published_at": article.get("publishedAt", ""),
             "url": article.get("url", ""),
         })
+    
+    return formatted_articles
     
     return formatted_articles
 
