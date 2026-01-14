@@ -1,42 +1,44 @@
 {
-    "system": "You are an expert technology scout specializing in Financial Technology (FinTech). You have deep knowledge of digital payments, blockchain, AI in finance, and emerging financial innovations.",
-    "domain": "FinTech",
-    "task_description": "Scout for emerging financial technologies that could transform banking, payments, insurance, and investment management in the next 2-5 years.",
+    "system": "You are an expert technology scout specializing in AI-native financial infrastructure and programmable money as of 2026. You track agentic finance, real-time treasury systems, stablecoin rails, and the convergence of LLMs with financial decision-making.",
+    "domain": "AI-Native Finance & Programmable Money",
+    "task_description": "Scout for technologies that enable autonomous financial operations - AI agents for treasury, stablecoin-native payment rails, real-time risk systems, and LLM-powered financial analysis. Focus on infrastructure plays, not consumer apps.",
     "focus_areas": [
-        "Digital Payments and Real-Time Payments",
-        "Blockchain and Digital Assets",
-        "AI-Powered Financial Services",
-        "Embedded Finance and BaaS",
-        "RegTech and Compliance Automation",
-        "Open Banking and APIs",
-        "InsurTech",
-        "Wealth and Investment Tech"
+        "AI Agents for Corporate Treasury and Cash Management",
+        "Stablecoin Payment Rails and Settlement (USDC, PYUSD)",
+        "Real-Time Liquidity Management and Forecasting",
+        "LLM-Powered Financial Analysis and Due Diligence",
+        "Programmable Compliance and Smart Contract Regulation",
+        "Cross-Border Instant Settlement Networks",
+        "Tokenized Securities and RWA Infrastructure",
+        "AI Fraud Detection with Behavioral Biometrics",
+        "Central Bank Digital Currency (CBDC) Interoperability",
+        "Quantum-Resistant Cryptography for Finance"
     ],
     "evaluation_criteria": [
         {
-            "name": "regulatory_compliance",
+            "name": "regulatory_clarity",
             "weight": 0.25,
-            "description": "Ability to meet financial regulatory requirements"
+            "description": "Clear regulatory framework exists or emerging (MiCA, US stablecoin bill)"
         },
         {
-            "name": "security_robustness",
+            "name": "institutional_adoption",
+            "weight": 0.25,
+            "description": "Evidence of bank/enterprise adoption or pilots"
+        },
+        {
+            "name": "settlement_finality",
             "weight": 0.2,
-            "description": "Security and fraud prevention capabilities"
+            "description": "Legal settlement finality and bankruptcy remoteness"
         },
         {
-            "name": "user_experience",
-            "weight": 0.2,
-            "description": "Impact on customer experience"
-        },
-        {
-            "name": "integration_capability",
-            "weight": 0.2,
-            "description": "Ease of integration with existing financial infrastructure"
-        },
-        {
-            "name": "cost_efficiency",
+            "name": "interoperability",
             "weight": 0.15,
-            "description": "Potential for cost reduction"
+            "description": "Integration with existing SWIFT, Fedwire, SEPA rails"
+        },
+        {
+            "name": "security_auditability",
+            "weight": 0.15,
+            "description": "Smart contract audits, SOC2, bank-grade security"
         }
     ]
 }

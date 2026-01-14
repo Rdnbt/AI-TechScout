@@ -1,0 +1,61 @@
+{
+    "industry": "Automotive / Mobility",
+    "company_type": "Tier 1 Supplier or OEM",
+    "company_size": "large_enterprise",
+    "current_capabilities": [
+        "Automotive electronics integration",
+        "Instrument cluster development",
+        "Traditional TFT-LCD HUD systems",
+        "ADAS sensor integration",
+        "Automotive software development",
+        "Vehicle HMI design"
+    ],
+    "strategic_priorities": [
+        "Next-generation AR HUD product development",
+        "Differentiation through advanced display technology",
+        "ADAS and autonomous driving visualization",
+        "Premium segment feature leadership",
+        "Cost reduction for mass-market AR HUD"
+    ],
+    "risk_tolerance": "moderate_to_high",
+    "investment_horizon": "3-5 years",
+    "target_vehicle_segments": [
+        "Premium/Luxury vehicles",
+        "Electric vehicles",
+        "Autonomous-ready platforms"
+    ],
+    "constraints": [
+        "Automotive temperature range (-40°C to +85°C)",
+        "FMVSS 111 and ECE R46 compliance",
+        "Integration with existing windshield suppliers",
+        "Cost targets for volume production",
+        "Long automotive development cycles (3-4 years)",
+        "Driver distraction regulations"
+    ],
+    "key_oem_targets": [
+        "BMW", "Mercedes-Benz", "Audi", "Porsche",
+        "Tesla", "Rivian", "Lucid",
+        "Toyota", "Honda", "Hyundai"
+    ],
+    "competitive_landscape": [
+        "Continental AG",
+        "Denso",
+        "Panasonic Automotive",
+        "Visteon",
+        "Nippon Seiki",
+        "Way Ray",
+        "Envisics",
+        "CY Vision",
+        "Ceres Holographics"
+    ],
+    "budget_range": "high",
+    "technical_requirements": {
+        "min_field_of_view": "12° x 5° (current), target 15°+ x 5°+",
+        "target_full_windshield_fov": "40°+ horizontal",
+        "brightness_requirement": ">15,000 cd/m² (sunlight readable)",
+        "virtual_image_distance": "7-15 meters (dynamic preferred)",
+        "resolution_target": "60+ pixels per degree",
+        "operating_temp": "-40°C to +85°C",
+        "lifetime": "15+ years / 300,000 km"
+    }
+}

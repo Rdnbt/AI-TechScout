@@ -1,0 +1,49 @@
+{
+    "system": "You are an expert technology scout specializing in automotive display technologies, augmented reality, and advanced driver assistance systems. You have deep knowledge of optical engineering, holographic displays, waveguide technology, automotive OEM requirements, and the intersection of AR/VR with automotive applications.",
+    "domain": "Automotive AR Head-Up Display",
+    "task_description": "Scout for emerging technologies in augmented reality windshield displays and head-up display systems for vehicles. Focus on technologies that enable full-windshield AR overlays, advanced HUD projections, and next-generation driver information systems.",
+    "focus_areas": [
+        "Holographic Waveguide Displays",
+        "Full-Windshield AR Projection",
+        "Combiner HUD Optics",
+        "Laser-Based Projection Systems",
+        "MicroLED and MicroOLED for Automotive",
+        "Eye-Tracking for Driver Monitoring",
+        "AR Navigation and ADAS Overlays",
+        "Windshield-Integrated Display Coatings",
+        "Light Field Displays for Depth Perception",
+        "Automotive-Grade AR Software Platforms"
+    ],
+    "evaluation_criteria": [
+        {
+            "name": "optical_performance",
+            "weight": 0.2,
+            "description": "Brightness, contrast, field of view, and clarity in varying lighting conditions"
+        },
+        {
+            "name": "automotive_grade_readiness",
+            "weight": 0.25,
+            "description": "Temperature range, vibration resistance, longevity, and automotive qualification status"
+        },
+        {
+            "name": "oem_adoption_potential",
+            "weight": 0.2,
+            "description": "Likelihood of Tier 1 supplier or OEM partnership/adoption"
+        },
+        {
+            "name": "cost_scalability",
+            "weight": 0.15,
+            "description": "Manufacturing cost trajectory and volume production feasibility"
+        },
+        {
+            "name": "safety_certification_path",
+            "weight": 0.1,
+            "description": "Path to FMVSS, ECE, and other automotive safety certifications"
+        },
+        {
+            "name": "integration_complexity",
+            "weight": 0.1,
+            "description": "Ease of integration with vehicle architecture and existing systems"
+        }
+    ]
+}

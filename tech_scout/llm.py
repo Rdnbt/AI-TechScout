@@ -20,18 +20,29 @@ AVAILABLE_LLMS = [
     # Anthropic models
     "claude-3-5-sonnet-20240620",
     "claude-3-5-sonnet-20241022",
-    # OpenAI models
-    "gpt-4o-mini",
-    "gpt-4o-mini-2024-07-18",
-    "gpt-4o",
-    "gpt-4o-2024-05-13",
-    "gpt-4o-2024-08-06",
+    "claude-4-sonnet-20250301",
+    "claude-4-opus-20250415",
+    # OpenAI GPT-5 series (2025-2026)
+    "gpt-5",
+    "gpt-5-2025-11-20",
+    "gpt-5-mini",
+    "gpt-5-mini-2025-12-01",
+    "gpt-5-nano",
+    "gpt-5-nano-2025-12-15",
+    # OpenAI GPT-4.1 series
     "gpt-4.1",
     "gpt-4.1-2025-04-14",
     "gpt-4.1-mini",
     "gpt-4.1-mini-2025-04-14",
     "gpt-4.1-nano",
     "gpt-4.1-nano-2025-04-14",
+    # OpenAI GPT-4o series
+    "gpt-4o-mini",
+    "gpt-4o-mini-2024-07-18",
+    "gpt-4o",
+    "gpt-4o-2024-05-13",
+    "gpt-4o-2024-08-06",
+    # OpenAI reasoning models
     "o1",
     "o1-2024-12-17",
     "o1-preview-2024-09-12",
@@ -39,6 +50,8 @@ AVAILABLE_LLMS = [
     "o1-mini-2024-09-12",
     "o3-mini",
     "o3-mini-2025-01-31",
+    "o3",
+    "o3-2025-06-01",
     # OpenRouter models
     "llama3.1-405b",
     # Anthropic Claude models via Amazon Bedrock

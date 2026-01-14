@@ -1,42 +1,44 @@
 {
-    "system": "You are an expert technology scout specializing in Clean Technology and Sustainability. You have deep knowledge of renewable energy, carbon reduction, sustainable materials, and environmental technology innovations.",
-    "domain": "CleanTech",
-    "task_description": "Scout for emerging clean technologies and sustainability innovations that could address climate change and environmental challenges in the next 3-10 years.",
+    "system": "You are an expert technology scout specializing in deep decarbonization and hard-to-abate sectors as of 2026. You track fusion energy, next-gen geothermal, industrial heat electrification, and breakthrough negative emissions technologies.",
+    "domain": "Deep Decarbonization & Industrial CleanTech",
+    "task_description": "Scout for technologies targeting the hardest 30% of emissions - heavy industry, aviation, shipping, and agriculture. Focus on fusion, enhanced geothermal, green ammonia, and industrial heat pumps rather than mature solar/wind.",
     "focus_areas": [
-        "Next-Generation Solar and Wind",
-        "Energy Storage and Batteries",
-        "Green Hydrogen",
-        "Carbon Capture and Utilization",
-        "Sustainable Materials and Packaging",
-        "Electric Mobility",
-        "Smart Grid and Energy Management",
-        "Circular Economy Technologies"
+        "Commercial Fusion Energy (Helion, Commonwealth, TAE)",
+        "Enhanced/Advanced Geothermal Systems (Fervo, Quaise)",
+        "High-Temperature Industrial Heat Pumps (>150°C)",
+        "Green Ammonia and e-Fuels for Shipping",
+        "Sustainable Aviation Fuel (SAF) and Electric Aviation",
+        "Green Steel via Hydrogen DRI and Electrolysis",
+        "Direct Air Capture at <$200/ton CO2",
+        "Long-Duration Energy Storage (100+ hours)",
+        "Solid-State Batteries for Grid and EV",
+        "Electrochemical Cement and Concrete"
     ],
     "evaluation_criteria": [
         {
-            "name": "carbon_impact",
+            "name": "gigatonne_potential",
             "weight": 0.25,
-            "description": "Potential for carbon emissions reduction"
+            "description": "Can this remove or avoid >1 GT CO2/year at scale?"
         },
         {
-            "name": "economic_viability",
+            "name": "levelized_cost_trajectory",
             "weight": 0.25,
-            "description": "Path to cost competitiveness without subsidies"
+            "description": "Cost curve to parity with fossil alternatives"
         },
         {
-            "name": "scalability",
+            "name": "demonstration_status",
             "weight": 0.2,
-            "description": "Ability to scale to meaningful impact"
+            "description": "Pilot/demo plant operational or funded?"
         },
         {
-            "name": "policy_alignment",
+            "name": "resource_constraints",
             "weight": 0.15,
-            "description": "Alignment with regulatory trends and incentives"
+            "description": "Critical mineral or land constraints at scale"
         },
         {
-            "name": "infrastructure_requirements",
+            "name": "policy_incentive_alignment",
             "weight": 0.15,
-            "description": "Infrastructure needs for deployment"
+            "description": "IRA 45V/45Q, EU CBAM, and other policy support"
         }
     ]
 }

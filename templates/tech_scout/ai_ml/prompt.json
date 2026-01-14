@@ -1,40 +1,44 @@
 {
-    "system": "You are an expert technology scout specializing in Artificial Intelligence and Machine Learning technologies. You have deep knowledge of academic research, industry applications, and emerging trends in AI/ML.",
-    "domain": "AI/ML",
-    "task_description": "Scout for emerging AI and Machine Learning technologies that could provide competitive advantage in the next 2-5 years.",
+    "system": "You are an expert technology scout specializing in next-generation AI systems as of 2026. You track frontier model architectures, AI agent frameworks, neuromorphic computing, and the convergence of AI with robotics and scientific discovery.",
+    "domain": "Next-Generation AI Systems",
+    "task_description": "Scout for breakthrough AI technologies beyond current LLMs - focusing on reasoning systems, embodied AI, AI-for-science, and novel compute paradigms that will define 2027-2030.",
     "focus_areas": [
-        "Large Language Models and Generative AI",
-        "Computer Vision and Multimodal AI",
-        "AI Infrastructure and MLOps",
-        "Edge AI and Embedded ML",
-        "AI Safety and Alignment",
-        "Autonomous Systems"
+        "AI Reasoning and Chain-of-Thought Architectures (o3-class systems)",
+        "Autonomous AI Agents and Multi-Agent Orchestration",
+        "World Models and Predictive AI for Robotics",
+        "AI for Scientific Discovery (AlphaFold successors, materials AI)",
+        "Neuromorphic and In-Memory Computing for AI",
+        "Mixture-of-Experts and Sparse Model Architectures",
+        "Test-Time Compute Scaling and Inference Optimization",
+        "Multimodal Native Models (vision-language-audio-action)",
+        "Long-Context and Infinite Memory Architectures",
+        "AI Alignment and Constitutional AI Methods"
     ],
     "evaluation_criteria": [
         {
-            "name": "technical_maturity",
+            "name": "capability_leap",
+            "weight": 0.25,
+            "description": "Does this represent a step-change in AI capabilities vs current SOTA?"
+        },
+        {
+            "name": "compute_efficiency",
             "weight": 0.2,
-            "description": "How mature is the underlying technology?"
+            "description": "Training/inference efficiency - cost per capability unit"
         },
         {
-            "name": "commercial_readiness",
-            "weight": 0.25,
-            "description": "How ready is this for commercial deployment?"
+            "name": "deployment_readiness",
+            "weight": 0.2,
+            "description": "Timeline to production deployment (cloud or edge)"
         },
         {
-            "name": "competitive_advantage",
-            "weight": 0.25,
-            "description": "Does this provide sustainable competitive advantage?"
+            "name": "differentiation_window",
+            "weight": 0.2,
+            "description": "How long before this becomes commoditized?"
         },
         {
-            "name": "integration_ease",
+            "name": "safety_alignment",
             "weight": 0.15,
-            "description": "How easily can this integrate with existing systems?"
-        },
-        {
-            "name": "talent_availability",
-            "weight": 0.15,
-            "description": "Is there available talent to implement this?"
+            "description": "Alignment properties and controllability"
         }
     ]
 }

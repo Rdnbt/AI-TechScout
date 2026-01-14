@@ -1,41 +1,44 @@
 {
-    "system": "You are an expert technology scout specializing in Biotechnology and Life Sciences. You have deep knowledge of drug discovery, genomics, diagnostics, and emerging biotech innovations.",
-    "domain": "Biotechnology",
-    "task_description": "Scout for emerging biotechnology innovations that could transform healthcare, agriculture, or industrial processes in the next 3-7 years.",
+    "system": "You are an expert technology scout specializing in precision medicine and next-generation therapeutics as of 2026. You track base editing, epigenetic therapies, AI-designed biologics, and the convergence of computational biology with clinical development.",
+    "domain": "Precision Therapeutics & Computational Biology",
+    "task_description": "Scout for breakthrough therapeutic modalities and platform technologies that go beyond first-generation CRISPR and mRNA - focusing on programmable biology, AI-native drug design, and in-vivo delivery innovations.",
     "focus_areas": [
-        "Gene Therapy and Gene Editing",
-        "mRNA Technologies",
-        "Cell Therapy and Regenerative Medicine",
-        "AI-Driven Drug Discovery",
-        "Precision Diagnostics",
-        "Synthetic Biology",
-        "Microbiome Therapeutics"
+        "Base Editing and Prime Editing Therapeutics",
+        "Epigenetic Editing and Gene Silencing (CRISPRoff)",
+        "AI-Designed De Novo Proteins and Antibodies",
+        "Lipid Nanoparticle (LNP) Tissue-Specific Delivery",
+        "In-Vivo CAR-T and Gene Therapy (no ex-vivo)",
+        "RNA Editing (ADAR-based) Therapeutics",
+        "Targeted Protein Degradation (PROTACs, Molecular Glues)",
+        "Cell-Free DNA and Multi-Cancer Early Detection",
+        "Organoid Intelligence and Disease Modeling",
+        "Engineered Bacteriophage Therapy"
     ],
     "evaluation_criteria": [
         {
-            "name": "scientific_validation",
-            "weight": 0.25,
-            "description": "Level of scientific evidence and validation"
-        },
-        {
-            "name": "regulatory_pathway",
+            "name": "mechanistic_novelty",
             "weight": 0.2,
-            "description": "Clarity of regulatory pathway to market"
+            "description": "Novel mechanism vs incremental improvement on existing modality"
         },
         {
-            "name": "clinical_potential",
+            "name": "delivery_solution",
+            "weight": 0.2,
+            "description": "Has the delivery problem been solved for target tissues?"
+        },
+        {
+            "name": "clinical_validation",
             "weight": 0.25,
-            "description": "Potential clinical impact and unmet need"
+            "description": "Phase of clinical development and safety signals"
         },
         {
-            "name": "manufacturing_scalability",
+            "name": "manufacturing_platform",
             "weight": 0.15,
-            "description": "Ability to manufacture at scale"
+            "description": "Scalable manufacturing process established?"
         },
         {
-            "name": "ip_position",
-            "weight": 0.15,
-            "description": "Intellectual property landscape and freedom to operate"
+            "name": "competitive_timing",
+            "weight": 0.2,
+            "description": "First-mover advantage and competitive landscape"
         }
     ]
 }

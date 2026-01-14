@@ -323,13 +323,93 @@ def search_patents(
     # Try SerpAPI if available and configured (most reliable for patents)
     if SERPAPI_KEY and SERPAPI_KEY not in ["", "your-serpapi-key-here"]:
         try:
-            return search_patents_serpapi(query, year_start, limit, country)
+            results = search_patents_serpapi(query, year_start, limit, country)
+            if results:
+                return results
         except Exception as e:
             print(f"  SerpAPI patent search failed: {e}")
     
-    # Patents are optional - return empty if no API available
-    # Note: Free patent APIs are unreliable. For production, consider SerpAPI or PatSnap.
+    # Fallback: Try Google Patents via web scraping
+    try:
+        return search_patents_google_fallback(query, year_start, limit)
+    except Exception as e:
+        print(f"  Google Patents fallback failed: {e}")
+    
     return []
+
+
+def search_patents_google_fallback(
+    query: str,
+    year_start: int,
+    limit: int,
+) -> List[Dict]:
+    """Fallback patent search using USPTO PatentsView API (free, reliable)."""
+    
+    # Use USPTO PatentsView API - free and reliable
+    base_url = "https://api.patentsview.org/patents/query"
+    
+    # Simplify query for API
+    clean_query = " ".join(query.split()[:6])  # Use first 6 words
+    
+    payload = {
+        "q": {
+            "_and": [
+                {"_text_any": {"patent_abstract": clean_query}},
+                {"_gte": {"patent_date": f"{year_start}-01-01"}}
+            ]
+        },
+        "f": [
+            "patent_number",
+            "patent_title", 
+            "patent_abstract",
+            "patent_date",
+            "assignee_organization",
+            "inventor_first_name",
+            "inventor_last_name"
+        ],
+        "o": {"per_page": limit},
+        "s": [{"patent_date": "desc"}]
+    }
+    
+    headers = {
+        "Content-Type": "application/json",
+        "User-Agent": "AI-TechScout/1.0"
+    }
+    
+    response = requests.post(base_url, json=payload, headers=headers, timeout=30)
+    response.raise_for_status()
+    
+    data = response.json()
+    patents = data.get("patents", [])
+    
+    formatted_patents = []
+    for patent in patents:
+        # Extract assignees
+        assignees = []
+        if patent.get("assignees"):
+            for a in patent["assignees"]:
+                if a.get("assignee_organization"):
+                    assignees.append(a["assignee_organization"])
+        
+        # Extract inventors
+        inventors = []
+        if patent.get("inventors"):
+            for inv in patent["inventors"]:
+                name = f"{inv.get('inventor_first_name', '')} {inv.get('inventor_last_name', '')}".strip()
+                if name:
+                    inventors.append(name)
+        
+        formatted_patents.append({
+            "patent_number": patent.get("patent_number", ""),
+            "title": patent.get("patent_title", ""),
+            "abstract": (patent.get("patent_abstract", "") or "")[:500],
+            "date": patent.get("patent_date", ""),
+            "assignees": assignees,
+            "inventors": inventors,
+            "source": "uspto_patentsview",
+        })
+    
+    return formatted_patents
 
 
 def search_patents_serpapi(
