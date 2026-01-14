@@ -1,24 +1,12 @@
 # LLM APIs
-anthropic
-aider-chat
-backoff
-openai
-google-generativeai
+anthropic>=0.18.0
+openai>=1.12.0
+google-generativeai>=0.4.0
+backoff>=2.2.1
 
-# Viz
-matplotlib
-pypdf
-pymupdf4llm
+# HTTP requests
+requests>=2.31.0
 
-# Common Requirements
-torch
-numpy
-transformers
-datasets
-tiktoken
-wandb
-tqdm
-
-# Tech Scouting Requirements
-requests
-newsapi-python
+# Utilities
+tqdm>=4.66.0
+python-dotenv>=1.0.0

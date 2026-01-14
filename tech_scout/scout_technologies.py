@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 import backoff
 import requests
 
-from ai_scientist.llm import get_response_from_llm, extract_json_between_markers
+from tech_scout.llm import get_response_from_llm, extract_json_between_markers
 
 # API Keys from environment
 S2_API_KEY = os.getenv("S2_API_KEY")

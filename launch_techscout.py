@@ -19,7 +19,11 @@ import os.path as osp
 import sys
 from datetime import datetime
 
-from ai_scientist.llm import create_client, AVAILABLE_LLMS
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
+from tech_scout.llm import create_client, AVAILABLE_LLMS
 from tech_scout.scout_technologies import scout_technologies, generate_search_queries
 from tech_scout.evaluate_technologies import batch_evaluate_technologies
 from tech_scout.generate_report import generate_scouting_report

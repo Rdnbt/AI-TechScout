@@ -11,7 +11,7 @@ import os.path as osp
 from typing import List, Dict, Optional
 from datetime import datetime
 
-from ai_scientist.llm import get_response_from_llm, extract_json_between_markers
+from tech_scout.llm import get_response_from_llm, extract_json_between_markers
 
 # =============================================================================
 # REPORT GENERATION PROMPTS
