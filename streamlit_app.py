@@ -592,7 +592,7 @@ with st.sidebar:
     # Logo and branding
     st.markdown("""
     <div style="text-align: center; padding: 20px 0;">
-        <div style="font-size: 48px; margin-bottom: 8px;">🔭</div>
+        <div style="font-size: 48px; margin-bottom: 10px;">🔭</div>
         <h2 style="margin: 0; font-size: 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">TechScout AI</h2>
         <p style="margin: 4px 0 0 0; font-size: 0.8rem; color: #666;">Intelligence Platform</p>
     </div>
@@ -695,11 +695,11 @@ with tab1:
         
         st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)
         
-        start_scout = st.button("🚀 Launch Scout Mission", use_container_width=True, type="primary")
+        start_scout = st.button("🚀 Launch Scout Mission", width="stretch", type="primary")
         
         st.markdown('<div style="height: 8px;"></div>', unsafe_allow_html=True)
         
-        if st.button("📂 Load Previous Results", use_container_width=True):
+        if st.button("📂 Load Previous Results", width="stretch"):
             try:
                 res_path = os.path.join(output_dir, "scouting_results.json")
                 if os.path.exists(res_path):
@@ -783,7 +783,7 @@ with tab1:
                 
                 # Data table
                 cols = [c for c in ['name', 'description', 'year'] if c in tech_df.columns]
-                st.dataframe(tech_df[cols], use_container_width=True, height=300)
+                st.dataframe(tech_df[cols], width="stretch", height=300)
                 
                 with st.expander("🔍 View Raw JSON Data"):
                     st.json(st.session_state.technologies)
@@ -810,7 +810,7 @@ with tab1:
                     )
                 with col_clear:
                     st.markdown('<div style="height: 28px;"></div>', unsafe_allow_html=True)
-                    if st.button("🗑️ Clear Chat", use_container_width=True):
+                    if st.button("🗑️ Clear Chat", width="stretch"):
                         st.session_state.deep_dive_history = []
                         st.rerun()
                 
@@ -850,7 +850,7 @@ with tab1:
                         
                         for i, (col, (btn_label, question)) in enumerate(zip([quick_q_col1, quick_q_col2, quick_q_col3, quick_q_col4], quick_questions)):
                             with col:
-                                if st.button(btn_label, key=f"quick_q_{i}", use_container_width=True):
+                                if st.button(btn_label, key=f"quick_q_{i}", width="stretch"):
                                     st.session_state.pending_question = question
                         
                         # Custom question input
@@ -865,7 +865,7 @@ with tab1:
                                 label_visibility="collapsed"
                             )
                         with col_send:
-                            send_btn = st.button("🚀 Ask", use_container_width=True, type="primary")
+                            send_btn = st.button("🚀 Ask", width="stretch", type="primary")
                         
                         # Handle pending question from quick buttons
                         if hasattr(st.session_state, 'pending_question') and st.session_state.pending_question:
@@ -962,7 +962,7 @@ with tab2:
         
         with col_action:
             st.markdown('<div style="height: 28px;"></div>', unsafe_allow_html=True)
-            run_eval = st.button("🚀 Run Evaluation", use_container_width=True, type="primary")
+            run_eval = st.button("🚀 Run Evaluation", width="stretch", type="primary")
         
         if run_eval:
             if not selected_tech_names:
@@ -1029,7 +1029,7 @@ with tab2:
                 
                 # Data table with styling
                 st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-                st.dataframe(eval_df, use_container_width=True, height=250)
+                st.dataframe(eval_df, width="stretch", height=250)
                 st.markdown('</div>', unsafe_allow_html=True)
                 
                 st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)
@@ -1085,7 +1085,7 @@ with tab2:
                         )
                     )
                     
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width="stretch")
                     st.markdown('</div>', unsafe_allow_html=True)
                 else:
                     st.info("Numerical scores not available for visualization.")
@@ -1123,7 +1123,7 @@ with tab3:
             st.markdown(f'<p style="color: #888; margin-bottom: 16px;">{tech_count} technologies • {eval_count} evaluations</p>', unsafe_allow_html=True)
             
             auto_archive = st.checkbox("📦 Auto-archive after generation", value=True)
-            generate_btn = st.button("✨ Generate Report", use_container_width=True, type="primary")
+            generate_btn = st.button("✨ Generate Report", width="stretch", type="primary")
             st.markdown('</div>', unsafe_allow_html=True)
         
         if generate_btn:
@@ -1167,7 +1167,7 @@ with tab3:
                                 data=report_content,
                                 file_name=f"techscout_{domain_name.replace(' ', '_')}_{timestamp_str}.md",
                                 mime="text/markdown",
-                                use_container_width=True
+                                width="stretch"
                             )
                         with dl2:
                             st.download_button(
@@ -1175,7 +1175,7 @@ with tab3:
                                 data=report_content,
                                 file_name=f"techscout_{domain_name.replace(' ', '_')}_{timestamp_str}.txt",
                                 mime="text/plain",
-                                use_container_width=True
+                                width="stretch"
                             )
                         
                         st.markdown('<div style="height: 24px;"></div>', unsafe_allow_html=True)
@@ -1204,7 +1204,7 @@ with tab3:
             # Manual archive button
             if os.path.exists(os.path.join(output_dir, "scouting_report.md")):
                 st.markdown('<div style="height: 16px;"></div>', unsafe_allow_html=True)
-                if st.button("📦 Archive Current Report", use_container_width=True):
+                if st.button("📦 Archive Current Report", width="stretch"):
                     domain_name = st.session_state.scouting_results.get("domain", "Manual_Archive")
                     archived = archive_report(output_dir, domain_name)
                     if archived:
@@ -1255,7 +1255,7 @@ with tab3:
                     
                     with col2:
                         # View button
-                        if st.button("👁️ View", key=f"view_{timestamp}", use_container_width=True):
+                        if st.button("👁️ View", key=f"view_{timestamp}", width="stretch"):
                             st.session_state.selected_archive_report = (timestamp, domain_clean, domain)
                         
                         # Download button
@@ -1266,12 +1266,12 @@ with tab3:
                                 data=report_content,
                                 file_name=f"{timestamp}_{domain_clean}_report.md",
                                 mime="text/markdown",
-                                use_container_width=True,
+                                width="stretch",
                                 key=f"dl_{timestamp}"
                             )
                         
                         # Delete button
-                        if st.button("🗑️ Delete", key=f"del_{timestamp}", use_container_width=True, type="secondary"):
+                        if st.button("🗑️ Delete", key=f"del_{timestamp}", width="stretch", type="secondary"):
                             deleted = delete_archived_report(output_dir, timestamp, domain_clean)
                             st.success(f"Deleted {len(deleted)} files")
                             st.rerun()
@@ -1285,7 +1285,7 @@ with tab3:
                     st.markdown('<div style="height: 24px;"></div>', unsafe_allow_html=True)
                     st.markdown(f'<h3 style="color: #667eea;">📄 {domain_display}</h3>', unsafe_allow_html=True)
                     
-                    if st.button("✖️ Close Preview", use_container_width=False):
+                    if st.button("✖️ Close Preview", width="content"):
                         st.session_state.selected_archive_report = None
                         st.rerun()
                     
@@ -1301,7 +1301,7 @@ with tab3:
                 with col_a:
                     st.markdown("**Current working report** can be manually archived:")
                 with col_b:
-                    if st.button("📦 Archive Now", use_container_width=True):
+                    if st.button("📦 Archive Now", width="stretch"):
                         domain_name = st.session_state.scouting_results.get("domain", "Manual_Archive")
                         archived = archive_report(output_dir, domain_name)
                         if archived:

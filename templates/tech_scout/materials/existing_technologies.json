@@ -1,0 +1,23 @@
+[
+    {
+        "name": "carbon_fiber",
+        "title": "Carbon Fiber Composites",
+        "description": "High-strength lightweight composite material",
+        "status": "mature",
+        "notes": "Widely used in aerospace, automotive, sports"
+    },
+    {
+        "name": "kevlar",
+        "title": "Aramid Fibers (Kevlar)",
+        "description": "High-strength synthetic fiber for protection",
+        "status": "mature",
+        "notes": "Standard in body armor and protective gear"
+    },
+    {
+        "name": "gorilla_glass",
+        "title": "Chemically Strengthened Glass",
+        "description": "Tough glass for consumer electronics",
+        "status": "deployed",
+        "notes": "Corning Gorilla Glass and competitors"
+    }
+]

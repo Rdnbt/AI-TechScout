@@ -1,0 +1,162 @@
+[
+    {
+        "name": "self_healing_phone_screen",
+        "title": "Self-Healing Smartphone Screens",
+        "description": "Phone screens that automatically repair minor scratches and cracks within hours using polymer networks that reform broken bonds",
+        "category": "consumer_gimmick",
+        "feasibility": "near_term",
+        "wow_factor": 10
+    },
+    {
+        "name": "color_changing_car_paint",
+        "title": "Mood-Responsive Car Paint",
+        "description": "Electrochromic or thermochromic car paint that changes color based on temperature, time of day, or owner's app selection",
+        "category": "automotive_gimmick",
+        "feasibility": "near_term",
+        "wow_factor": 9
+    },
+    {
+        "name": "invisibility_fabric",
+        "title": "Adaptive Camouflage Clothing",
+        "description": "Metamaterial-based fabric that bends light to create partial invisibility or real-time pattern matching with environment",
+        "category": "fashion_military",
+        "feasibility": "long_term",
+        "wow_factor": 10
+    },
+    {
+        "name": "energy_harvesting_shoes",
+        "title": "Piezoelectric Charging Sneakers",
+        "description": "Shoes with piezoelectric soles that generate electricity from walking to charge your phone",
+        "category": "wearable_gimmick",
+        "feasibility": "near_term",
+        "wow_factor": 8
+    },
+    {
+        "name": "temperature_regulating_jacket",
+        "title": "Phase-Change Climate Control Jacket",
+        "description": "Jacket with microencapsulated phase-change materials that automatically absorbs or releases heat to maintain perfect body temperature",
+        "category": "fashion_tech",
+        "feasibility": "available_now",
+        "wow_factor": 7
+    },
+    {
+        "name": "self_cleaning_clothes",
+        "title": "Never-Wash Nano-Coated Clothing",
+        "description": "Clothing with titanium dioxide nanoparticle coating that breaks down dirt and odors using sunlight - never needs washing",
+        "category": "consumer_gimmick",
+        "feasibility": "near_term",
+        "wow_factor": 9
+    },
+    {
+        "name": "shape_shifting_furniture",
+        "title": "Programmable Matter Furniture",
+        "description": "Furniture made of modular smart materials that can morph from chair to table to bed on voice command using shape-memory alloys",
+        "category": "home_moonshot",
+        "feasibility": "long_term",
+        "wow_factor": 10
+    },
+    {
+        "name": "glowing_plants",
+        "title": "Bioluminescent Living Night Lights",
+        "description": "Genetically engineered plants with genes from fireflies or jellyfish that glow in the dark - living, sustainable night lights",
+        "category": "bio_gimmick",
+        "feasibility": "near_term",
+        "wow_factor": 9
+    },
+    {
+        "name": "liquid_metal_phone",
+        "title": "Liquid Metal Shapeshifting Phone",
+        "description": "Phone with gallium-based liquid metal shell that can change shape - flatten for pocket, curve for grip, stand up for video",
+        "category": "consumer_moonshot",
+        "feasibility": "long_term",
+        "wow_factor": 10
+    },
+    {
+        "name": "concrete_that_eats_co2",
+        "title": "Carbon-Negative Smart Concrete",
+        "description": "Concrete infused with algae or special minerals that absorbs CO2 over time - buildings that fight climate change",
+        "category": "construction_green",
+        "feasibility": "near_term",
+        "wow_factor": 8
+    },
+    {
+        "name": "unbreakable_wine_glass",
+        "title": "Graphene-Enhanced Unbreakable Glassware",
+        "description": "Wine glasses and fine china reinforced with graphene layers - looks identical to crystal but survives drops on concrete",
+        "category": "consumer_premium",
+        "feasibility": "near_term",
+        "wow_factor": 7
+    },
+    {
+        "name": "sound_absorbing_wallpaper",
+        "title": "Acoustic Metamaterial Wallpaper",
+        "description": "Paper-thin wallpaper with metamaterial structure that cancels specific frequencies - eliminate neighbor noise, traffic, or snoring",
+        "category": "home_tech",
+        "feasibility": "near_term",
+        "wow_factor": 9
+    },
+    {
+        "name": "solar_paint",
+        "title": "Spray-On Solar Cell Paint",
+        "description": "Perovskite or quantum dot paint that converts any surface into a solar panel - spray it on walls, cars, backpacks",
+        "category": "energy_moonshot",
+        "feasibility": "medium_term",
+        "wow_factor": 10
+    },
+    {
+        "name": "memory_foam_everything",
+        "title": "Body-Adapting Smart Seats Everywhere",
+        "description": "Advanced viscoelastic materials with sensors that learn your body shape and adjust firmness - in cars, theaters, planes, offices",
+        "category": "comfort_tech",
+        "feasibility": "near_term",
+        "wow_factor": 6
+    },
+    {
+        "name": "air_purifying_curtains",
+        "title": "Pollution-Eating Window Drapes",
+        "description": "Curtains coated with photocatalytic titanium dioxide that breaks down VOCs and pollutants when exposed to sunlight",
+        "category": "home_health",
+        "feasibility": "available_now",
+        "wow_factor": 7
+    },
+    {
+        "name": "instant_ice_pack_material",
+        "title": "Reusable Instant-Freeze Material",
+        "description": "Flexible material that instantly freezes when flexed (supercooled sodium acetate) and recharges by boiling - infinite ice pack",
+        "category": "consumer_practical",
+        "feasibility": "available_now",
+        "wow_factor": 6
+    },
+    {
+        "name": "bulletproof_tshirt",
+        "title": "Graphene-Silk Armor T-Shirt",
+        "description": "Normal-looking t-shirt made from spider silk and graphene composite - lightweight, breathable, stops bullets",
+        "category": "fashion_defense",
+        "feasibility": "medium_term",
+        "wow_factor": 10
+    },
+    {
+        "name": "glow_in_dark_road",
+        "title": "Self-Illuminating Smart Roads",
+        "description": "Road paint with strontium aluminate that charges by sunlight and glows all night - no streetlights needed, shows lane markings",
+        "category": "infrastructure",
+        "feasibility": "near_term",
+        "wow_factor": 8
+    },
+    {
+        "name": "holographic_nail_polish",
+        "title": "Structural Color Shifting Nail Polish",
+        "description": "Nail polish using photonic crystals instead of pigments - creates true holographic effect that shifts with viewing angle",
+        "category": "beauty_gimmick",
+        "feasibility": "available_now",
+        "wow_factor": 7
+    },
+    {
+        "name": "smart_bandage",
+        "title": "Wound-Monitoring Color-Change Bandages",
+        "description": "Bandages that change color to indicate infection, pH levels, or healing progress - no more removing to check wounds",
+        "category": "medical_practical",
+        "feasibility": "near_term",
+        "wow_factor": 8
+    }
+]

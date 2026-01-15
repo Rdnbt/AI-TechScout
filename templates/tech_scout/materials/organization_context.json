@@ -1,0 +1,25 @@
+{
+    "industry": "Materials / Manufacturing / Consumer Products",
+    "company_size": "varies",
+    "current_capabilities": [
+        "Traditional materials processing",
+        "Polymer manufacturing",
+        "Metal fabrication",
+        "Basic composites"
+    ],
+    "strategic_priorities": [
+        "Develop next-generation smart materials",
+        "Sustainability and circular economy",
+        "Lightweight high-performance materials",
+        "Novel consumer applications with 'wow factor'"
+    ],
+    "risk_tolerance": "moderate_to_high",
+    "investment_horizon": "3-7 years",
+    "constraints": [
+        "Scalability for mass production",
+        "Cost competitiveness",
+        "Regulatory approvals for new materials",
+        "Supply chain considerations"
+    ],
+    "budget_range": "medium_to_high"
+}

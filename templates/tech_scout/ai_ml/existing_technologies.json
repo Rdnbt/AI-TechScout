@@ -1,23 +1,92 @@
 [
     {
-        "name": "transformer_architectures",
-        "title": "Transformer-based Deep Learning Architectures",
-        "description": "The foundational architecture behind modern LLMs and vision models",
-        "status": "mature",
-        "notes": "Already widely adopted, focus on optimizations"
+        "name": "preferred_networks_pfn",
+        "title": "Preferred Networks (PFN) Deep Learning Platform",
+        "description": "Japan's leading AI startup, known for Chainer framework and industrial AI applications",
+        "status": "deployed",
+        "company": "Preferred Networks",
+        "market_position": "japan_leader",
+        "notes": "Strong in manufacturing, robotics, drug discovery"
     },
     {
-        "name": "gpt_llm",
-        "title": "GPT-style Large Language Models",
-        "description": "Autoregressive language models for text generation",
+        "name": "fujitsu_kozuchi",
+        "title": "Fujitsu Kozuchi AI Platform",
+        "description": "Enterprise AI platform for Japanese corporations with quantum-inspired optimization",
         "status": "deployed",
-        "notes": "Core technology, monitor advancements"
+        "company": "Fujitsu",
+        "market_position": "enterprise_leader",
+        "notes": "Digital Annealer, Takane Japanese LLM"
     },
     {
-        "name": "diffusion_models",
-        "title": "Diffusion Models for Image Generation",
-        "description": "State-of-the-art image generation technology",
+        "name": "nec_cotomi",
+        "title": "NEC Cotomi Japanese LLM",
+        "description": "NEC's proprietary Japanese large language model for enterprise applications",
         "status": "deployed",
-        "notes": "Stable Diffusion, DALL-E, Midjourney"
+        "company": "NEC Corporation",
+        "market_position": "enterprise",
+        "notes": "Focus on Japanese government and enterprise"
+    },
+    {
+        "name": "hitachi_lumada",
+        "title": "Hitachi Lumada AI/IoT Platform",
+        "description": "Industrial AI platform combining IoT and AI for smart manufacturing",
+        "status": "deployed",
+        "company": "Hitachi",
+        "market_position": "industrial_leader",
+        "notes": "Strong in energy, transportation, smart cities"
+    },
+    {
+        "name": "ntt_tsuzumi",
+        "title": "NTT Tsuzumi Japanese LLM",
+        "description": "NTT's lightweight Japanese LLM optimized for on-premise enterprise deployment",
+        "status": "deployed",
+        "company": "NTT",
+        "market_position": "telecom_enterprise",
+        "notes": "70B parameter model, strong Japanese language understanding"
+    },
+    {
+        "name": "cyberagent_calm",
+        "title": "CyberAgent CALM Japanese LLM",
+        "description": "Open Japanese language model for commercial applications",
+        "status": "deployed",
+        "company": "CyberAgent",
+        "market_position": "startup",
+        "notes": "Open-source, advertising and media focused"
+    },
+    {
+        "name": "fanuc_field",
+        "title": "FANUC FIELD System",
+        "description": "Factory IoT platform with AI-powered predictive maintenance for CNC machines",
+        "status": "deployed",
+        "company": "FANUC",
+        "market_position": "global_leader",
+        "notes": "World's largest CNC and robot manufacturer"
+    },
+    {
+        "name": "sony_ai",
+        "title": "Sony AI Research",
+        "description": "AI research in gaming, imaging, robotics (Aibo), and entertainment",
+        "status": "research",
+        "company": "Sony",
+        "market_position": "research_leader",
+        "notes": "Strong in computer vision, generative AI for creativity"
+    },
+    {
+        "name": "toyota_woven",
+        "title": "Toyota Woven by Toyota",
+        "description": "Autonomous driving and smart city AI platform",
+        "status": "development",
+        "company": "Toyota",
+        "market_position": "automotive_leader",
+        "notes": "Woven City test bed, Arene OS"
+    },
+    {
+        "name": "abeja_platform",
+        "title": "ABEJA Platform",
+        "description": "Japanese AI startup platform for retail analytics and manufacturing inspection",
+        "status": "deployed",
+        "company": "ABEJA",
+        "market_position": "startup_leader",
+        "notes": "Computer vision focus, retail and manufacturing"
     }
 ]

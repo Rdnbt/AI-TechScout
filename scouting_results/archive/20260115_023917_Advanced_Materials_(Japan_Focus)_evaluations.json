@@ -1,0 +1,828 @@
+{
+  "evaluation_date": "2026-01-15T02:34:43.430538",
+  "technologies_evaluated": 5,
+  "evaluation_criteria": [
+    {
+      "name": "strategic_fit",
+      "weight": 0.3,
+      "description": "Alignment with strategic priorities"
+    },
+    {
+      "name": "maturity",
+      "weight": 0.2,
+      "description": "Technology readiness level"
+    },
+    {
+      "name": "market_potential",
+      "weight": 0.2,
+      "description": "Market size and growth potential"
+    },
+    {
+      "name": "competitive_position",
+      "weight": 0.15,
+      "description": "Ability to achieve competitive advantage"
+    },
+    {
+      "name": "implementation_feasibility",
+      "weight": 0.15,
+      "description": "Ease of implementation"
+    }
+  ],
+  "individual_evaluations": [
+    {
+      "technology": {
+        "name": "carbon_fiber_reinforced_prepreg_resin_composition",
+        "title": "Carbon Fiber Reinforced Prepreg Resin Composition",
+        "description": "Advanced resin compositions impregnated into sizing agent-coated carbon fibers to enhance adhesion, microcrack resistance, and storage stability in carbon fiber reinforced composites.",
+        "key_capabilities": [
+          "Improved adhesion between fiber and resin",
+          "Enhanced mechanical durability",
+          "Long-term storage stability"
+        ],
+        "source_types": [
+          "patent",
+          "news"
+        ],
+        "key_players": [
+          "Toray Industries, Inc.",
+          "Mitsubishi Chemical Corporation",
+          "Ajinomoto Co., Inc."
+        ],
+        "maturity_estimate": "developing",
+        "potential_impact": 8,
+        "strategic_relevance": 10,
+        "key_references": [
+          "patent/US11286359B2/en",
+          "patent/US10406486B2/en",
+          "Mitsubishi Chemical to double Aichi, Sacramento carbon fiber plant production capacity - CompositesWorld"
+        ],
+        "timeline_estimate": 3
+      },
+      "evaluation_date": "2026-01-15T02:32:13.733460",
+      "maturity_assessment": {
+        "trl_level": 4,
+        "trl_description": "Technology validated in lab environment; component and/or breadboard validation completed.",
+        "maturity_stage": "development",
+        "evidence_strength": 5,
+        "key_milestones_achieved": [
+          "Formulation of advanced prepreg resin compositions",
+          "Laboratory validation of improved adhesion and mechanical durability",
+          "Patents filed securing intellectual property",
+          "Identification of key industry players involved"
+        ],
+        "remaining_challenges": [
+          "Scale-up of resin impregnation process to manufacturing scale",
+          "Validation of performance in relevant operational environments",
+          "Long-term durability and storage stability testing under real conditions",
+          "Establishing manufacturing and supply chain infrastructure",
+          "Demonstration of cost-effectiveness and process integration"
+        ],
+        "estimated_years_to_market": 3,
+        "confidence": 7,
+        "rationale": "Assessment is based on strong patent activity and academic papers but limited evidence of pilot or demonstration projects. The technology shows clear progress beyond basic research but has yet to reach large-scale validation or commercialization."
+      },
+      "strategic_fit": {
+        "overall_fit_score": 8,
+        "alignment_with_priorities": {
+          "Innovation": 9,
+          "Growth": 8,
+          "Efficiency": 7
+        },
+        "capability_gaps": [
+          "Advanced composite materials expertise",
+          "Materials science R&D capabilities",
+          "Supply chain and manufacturing for carbon fiber composites"
+        ],
+        "build_vs_buy_recommendation": "partner",
+        "investment_type": "strategic",
+        "recommended_investment_level": "moderate",
+        "key_risks": [
+          "Technology development and commercialization delays",
+          "Integration challenges due to current capability gaps",
+          "Market adoption and competitive response",
+          "Dependence on key technology providers"
+        ],
+        "key_opportunities": [
+          "Development of differentiated, high-performance products",
+          "Access to growing composite materials markets",
+          "Improved product durability and lifecycle",
+          "Potential for operational efficiencies"
+        ],
+        "competitive_advantage_potential": 8,
+        "time_sensitivity": "important",
+        "recommended_actions": [
+          "Engage with key players (e.g., Toray, Mitsubishi Chemical) for partnership or licensing discussions",
+          "Invest in building internal materials science and composite engineering talent",
+          "Monitor technology development closely and pilot early applications",
+          "Develop a roadmap for integrating carbon fiber composite materials into product lines",
+          "Assess supply chain and manufacturing adjustments needed for adoption"
+        ]
+      },
+      "competitive_landscape": {
+        "market_leaders": [
+          {
+            "name": "Toray Industries, Inc.",
+            "description": "Global leader in carbon fiber composites with advanced resin and fiber coating technologies, holding key patents in prepreg resin compositions."
+          },
+          {
+            "name": "Mitsubishi Chemical Corporation",
+            "description": "Major chemical manufacturer investing in scaling carbon fiber production; holds critical patents and expanding capacity in Aichi and Sacramento plants."
+          },
+          {
+            "name": "Ajinomoto Co., Inc.",
+            "description": "Specializes in advanced chemical formulations including sizing agents and resins for improved fiber-matrix adhesion in carbon fiber composites."
+          }
+        ],
+        "emerging_challengers": [],
+        "academic_hubs": [],
+        "geographic_concentration": [
+          "Japan",
+          "United States"
+        ],
+        "ip_landscape": "Moderately consolidated with leading incumbents holding key patents; limited fragmentation or open innovation visible.",
+        "barriers_to_entry": [
+          "High technical complexity of resin and fiber coating formulation",
+          "Capital-intensive production and quality control infrastructure",
+          "Need for long-term storage stability validation",
+          "Strong incumbents with proprietary technologies and supply chains"
+        ],
+        "partnership_opportunities": [
+          "Aerospace OEMs for lightweight structural applications",
+          "Automotive manufacturers focusing on electric vehicles",
+          "Composite fabricators seeking customized prepreg solutions"
+        ],
+        "acquisition_targets": [],
+        "competitive_intensity": 7,
+        "market_timing": "early",
+        "white_space_opportunities": [
+          "Development of bio-based or eco-friendly resin systems",
+          "Enhanced recyclability and end-of-life composite solutions",
+          "Digital quality monitoring and manufacturing integration"
+        ]
+      },
+      "overall_recommendation": {
+        "overall_score": 6.1,
+        "recommended_action": "monitor_and_pilot",
+        "priority": "medium",
+        "investment_recommendation": "partner",
+        "time_sensitivity": "important"
+      }
+    },
+    {
+      "technology": {
+        "name": "solid_state_battery_electrolyte_and_electrode_innovations",
+        "title": "Solid-State Battery Electrolyte and Electrode Innovations",
+        "description": "Innovations focused on electrolyte materials, electrode designs, and manufacturability improvements to overcome challenges like low charge mobility and mechanical degradation in solid-state batteries.",
+        "key_capabilities": [
+          "Higher energy density",
+          "Improved safety",
+          "Longer life cycles",
+          "Enhanced manufacturability"
+        ],
+        "source_types": [
+          "paper"
+        ],
+        "key_players": [
+          "Panasonic",
+          "TDK",
+          "Murata",
+          "Raj Bridgelall (author)"
+        ],
+        "maturity_estimate": "developing",
+        "potential_impact": 9,
+        "strategic_relevance": 10,
+        "key_references": [
+          "Solid-State Battery Developments: A Cross-Sectional Patent Analysis"
+        ],
+        "timeline_estimate": 5
+      },
+      "evaluation_date": "2026-01-15T02:32:51.978333",
+      "maturity_assessment": {
+        "trl_level": 3,
+        "trl_description": "Analytical and experimental critical function and/or characteristic proof of concept",
+        "maturity_stage": "applied_research",
+        "evidence_strength": 4,
+        "key_milestones_achieved": [
+          "Identification of innovative electrolyte materials",
+          "Preliminary electrode design concepts developed",
+          "Proof of concept demonstrated in academic research"
+        ],
+        "remaining_challenges": [
+          "Improving charge mobility within solid electrolytes",
+          "Addressing mechanical degradation during cycling",
+          "Scaling manufacturing processes for commercial viability",
+          "Filing and securing intellectual property protections",
+          "Demonstration of full solid-state battery prototypes"
+        ],
+        "estimated_years_to_market": 5,
+        "confidence": 7,
+        "rationale": "The technology is supported by academic research and interest from major industry players, indicating progress beyond basic research. However, the lack of patents, prototypes, or commercial activity limits the readiness level to applied research with experimental validation. The timeline and strategic relevance suggest continued development towards demonstration in the medium term."
+      },
+      "strategic_fit": {
+        "overall_fit_score": 8,
+        "alignment_with_priorities": {
+          "Innovation": 9,
+          "Growth": 8,
+          "Efficiency": 9
+        },
+        "capability_gaps": [
+          "Solid-state battery materials expertise",
+          "Electrolyte and electrode design R&D",
+          "Advanced manufacturing processes",
+          "Battery testing and validation"
+        ],
+        "build_vs_buy_recommendation": "partner",
+        "investment_type": "strategic",
+        "recommended_investment_level": "moderate",
+        "key_risks": [
+          "Technology maturity may take longer than expected",
+          "High R&D and manufacturing scale-up costs",
+          "Strong competition from established players",
+          "Potential regulatory and safety certification challenges"
+        ],
+        "key_opportunities": [
+          "First-mover advantage in advanced battery markets",
+          "Differentiation through safety and performance",
+          "Access to emerging markets in EV and portable electronics",
+          "Long-term cost reductions via manufacturability improvements"
+        ],
+        "competitive_advantage_potential": 8,
+        "time_sensitivity": "important",
+        "recommended_actions": [
+          "Initiate partnerships or licensing agreements with leading innovators",
+          "Invest in targeted R&D collaborations to build internal expertise",
+          "Monitor patent and research developments closely",
+          "Develop a roadmap for gradual capability build-up aligned with market readiness",
+          "Evaluate potential pilot manufacturing projects to assess scalability"
+        ]
+      },
+      "competitive_landscape": {
+        "market_leaders": [
+          {
+            "name": "Panasonic",
+            "description": "Leading electronics and battery manufacturer with extensive R&D on solid-state batteries and strong manufacturing capabilities."
+          },
+          {
+            "name": "TDK",
+            "description": "Specializes in advanced materials and electronic components, investing in electrolyte and electrode innovations for solid-state battery applications."
+          },
+          {
+            "name": "Murata",
+            "description": "Expert in electronic components and energy storage solutions, focusing on improving solid-state battery safety and lifecycle."
+          }
+        ],
+        "emerging_challengers": [],
+        "academic_hubs": [],
+        "geographic_concentration": [
+          "Japan",
+          "East Asia"
+        ],
+        "ip_landscape": "fragmented with growing patent activity but no clear dominant holder",
+        "barriers_to_entry": [
+          "Complex materials science and engineering challenges",
+          "High capital investment for scale manufacturing",
+          "Demonstration of safety and longevity",
+          "Navigating fragmented patent environment"
+        ],
+        "partnership_opportunities": [
+          "Materials suppliers specializing in solid electrolytes",
+          "Automotive OEMs seeking battery innovation",
+          "Research institutions focused on battery materials and manufacturing"
+        ],
+        "acquisition_targets": [],
+        "competitive_intensity": 6,
+        "market_timing": "early",
+        "white_space_opportunities": [
+          "Scalable and cost-effective manufacturing processes",
+          "Composite electrolyte materials with improved mobility and durability",
+          "Integration techniques for fast charging and thermal management"
+        ]
+      },
+      "overall_recommendation": {
+        "overall_score": 6.0,
+        "recommended_action": "monitor_and_pilot",
+        "priority": "medium",
+        "investment_recommendation": "partner",
+        "time_sensitivity": "important"
+      }
+    },
+    {
+      "technology": {
+        "name": "multilayer_reflective_film_for_display_applications",
+        "title": "Multilayer Reflective Film for Display Applications",
+        "description": "Reflective films composed of alternately laminated layers of different resins designed to achieve specific optical properties, thermal stability, and durability for display materials.",
+        "key_capabilities": [
+          "Optical light management",
+          "Thermal resistance",
+          "Moisture resistance",
+          "High reflectivity"
+        ],
+        "source_types": [
+          "patent"
+        ],
+        "key_players": [
+          "Toray Industries, Inc.",
+          "Japan Display Inc."
+        ],
+        "maturity_estimate": "developing",
+        "potential_impact": 7,
+        "strategic_relevance": 8,
+        "key_references": [
+          "patent/JP6225706B2/en",
+          "patent/EP3305870B1/en"
+        ],
+        "timeline_estimate": 3
+      },
+      "evaluation_date": "2026-01-15T02:33:18.190987",
+      "maturity_assessment": {
+        "trl_level": 4,
+        "trl_description": "Component and/or breadboard validation in laboratory environment",
+        "maturity_stage": "development",
+        "evidence_strength": 5,
+        "key_milestones_achieved": [
+          "Identification of suitable resin materials for multilayer reflective films",
+          "Laboratory demonstration of key optical and thermal properties",
+          "Initial engineering of multilayer lamination process"
+        ],
+        "remaining_challenges": [
+          "Scaling manufacturing processes for consistent quality",
+          "Demonstrating durability and performance in relevant environmental conditions",
+          "Integration into functional display modules",
+          "Establishing intellectual property and patent protections"
+        ],
+        "estimated_years_to_market": 3,
+        "confidence": 7,
+        "rationale": "The technology shows validated performance in lab settings with active industrial interest but lacks prototype demonstration in relevant environments and commercialization evidence. The moderate evidence base and strategic relevance support the TRL 4 assignment with expected further development over the next few years."
+      },
+      "strategic_fit": {
+        "overall_fit_score": 8,
+        "alignment_with_priorities": {
+          "Innovation": 9,
+          "Growth": 8,
+          "Efficiency": 7
+        },
+        "capability_gaps": [
+          "Materials science expertise specific to multilayer reflective films",
+          "Optical engineering capabilities",
+          "Thermal and moisture resistance testing and validation",
+          "Intellectual property management related to display materials"
+        ],
+        "build_vs_buy_recommendation": "partner",
+        "investment_type": "strategic",
+        "recommended_investment_level": "moderate",
+        "key_risks": [
+          "Technology still in development, potential delays or performance shortfalls",
+          "Integration challenges with existing product lines",
+          "IP licensing complexities and competition from established players",
+          "Market adoption risk if alternative display technologies advance rapidly"
+        ],
+        "key_opportunities": [
+          "Early mover advantage in advanced display materials",
+          "Product differentiation through superior optical and durability properties",
+          "Potential to expand into new display or lighting markets",
+          "Improved product efficiency and longevity"
+        ],
+        "competitive_advantage_potential": 7,
+        "time_sensitivity": "important",
+        "recommended_actions": [
+          "Engage in partnerships or licensing agreements with key players like Toray Industries or Japan Display",
+          "Invest in building internal materials science and optical engineering capabilities",
+          "Monitor technology maturation and patent landscape closely",
+          "Initiate exploratory projects to validate integration feasibility",
+          "Develop a roadmap for incorporating reflective film technology into product development within 3-5 years"
+        ]
+      },
+      "competitive_landscape": {
+        "market_leaders": [
+          {
+            "name": "Toray Industries, Inc.",
+            "description": "A leading materials manufacturer specializing in advanced polymers and films, with strong capabilities in multilayer resin lamination and display materials."
+          },
+          {
+            "name": "Japan Display Inc.",
+            "description": "A major display technology company focused on innovative display materials and optical films for LCD and emerging display technologies."
+          }
+        ],
+        "emerging_challengers": [],
+        "academic_hubs": [],
+        "geographic_concentration": [
+          "Japan"
+        ],
+        "ip_landscape": "Moderately consolidated with strategic patents held by key players; relatively early-stage with limited fragmentation.",
+        "barriers_to_entry": [
+          "High technical complexity in multilayer film fabrication",
+          "Need for advanced manufacturing and quality control",
+          "Strong IP protection by incumbents",
+          "Capital intensity for R&D and production scale-up"
+        ],
+        "partnership_opportunities": [
+          "Display panel manufacturers seeking enhanced optical films",
+          "Resin and polymer suppliers with innovative materials",
+          "Optical component integrators for specialized display applications"
+        ],
+        "acquisition_targets": [],
+        "competitive_intensity": 5,
+        "market_timing": "early",
+        "white_space_opportunities": [
+          "Expansion into flexible and wearable displays",
+          "Application in automotive heads-up displays (HUDs)",
+          "Development for augmented and mixed reality devices",
+          "Enhanced moisture resistance for harsh environmental use"
+        ]
+      },
+      "overall_recommendation": {
+        "overall_score": 6.5,
+        "recommended_action": "monitor_and_pilot",
+        "priority": "medium",
+        "investment_recommendation": "partner",
+        "time_sensitivity": "important"
+      }
+    },
+    {
+      "technology": {
+        "name": "carbon_fiber_recycling_using_alkali_molten_hydroxide",
+        "title": "Carbon Fiber Recycling Using Alkali Molten Hydroxide",
+        "description": "A process for recovering carbon fiber from carbon fiber reinforced plastics by using alkali molten hydroxide, enabling recycling and reuse of valuable carbon fibers.",
+        "key_capabilities": [
+          "Recovery of high-quality carbon fiber",
+          "Reduction of composite waste",
+          "Sustainable material lifecycle"
+        ],
+        "source_types": [
+          "paper"
+        ],
+        "key_players": [
+          "Takaaki Wajima",
+          "K. Yamashita"
+        ],
+        "maturity_estimate": "emerging",
+        "potential_impact": 8,
+        "strategic_relevance": 9,
+        "key_references": [
+          "Recovery of carbon fiber from carbon fiber reinforced plastics using alkali molten hydroxide"
+        ],
+        "timeline_estimate": 4
+      },
+      "evaluation_date": "2026-01-15T02:33:52.394573",
+      "maturity_assessment": {
+        "trl_level": 3,
+        "trl_description": "Analytical and experimental critical function and/or characteristic proof of concept demonstrated in laboratory environment.",
+        "maturity_stage": "applied_research",
+        "evidence_strength": 4,
+        "key_milestones_achieved": [
+          "Proof of concept established through laboratory experiments",
+          "Demonstration of carbon fiber recovery using alkali molten hydroxide in academic research"
+        ],
+        "remaining_challenges": [
+          "Scale-up from laboratory to pilot scale",
+          "Validation of process economics and sustainability at larger scale",
+          "Achieving consistent industrial-grade quality of recovered carbon fibers",
+          "Integration with existing recycling and manufacturing workflows",
+          "Filing of intellectual property and protection"
+        ],
+        "estimated_years_to_market": 4,
+        "confidence": 7,
+        "rationale": "The technology is supported by academic research demonstrating feasibility at lab scale (TRL 3). No evidence of prototypes, pilot tests, or commercialization exists, indicating it remains in the applied research phase with several development and demonstration steps ahead."
+      },
+      "strategic_fit": {
+        "overall_fit_score": 8,
+        "alignment_with_priorities": {
+          "Innovation": 9,
+          "Growth": 7,
+          "Efficiency": 8
+        },
+        "capability_gaps": [
+          "Advanced materials recycling processes",
+          "Chemical processing expertise",
+          "Sustainability and environmental compliance",
+          "Pilot-scale process engineering"
+        ],
+        "build_vs_buy_recommendation": "partner",
+        "investment_type": "strategic",
+        "recommended_investment_level": "moderate",
+        "key_risks": [
+          "Technical and scale-up challenges due to emerging technology maturity",
+          "High initial capital and integration costs",
+          "Regulatory and environmental compliance risks with chemical processing",
+          "Market acceptance and adoption uncertainty"
+        ],
+        "key_opportunities": [
+          "Leadership in sustainable carbon fiber recycling",
+          "Cost savings through reuse of recovered carbon fibers",
+          "Enhancement of the organization\u2019s innovation and sustainability profile",
+          "Access to new markets focused on circular economy products"
+        ],
+        "competitive_advantage_potential": 8,
+        "time_sensitivity": "important",
+        "recommended_actions": [
+          "Engage with research institutions and key players for collaboration",
+          "Conduct pilot projects to validate process feasibility and economics",
+          "Develop internal expertise in materials recycling and chemical processing",
+          "Monitor regulatory landscape related to recycling chemicals",
+          "Assess integration options within existing manufacturing processes"
+        ]
+      },
+      "competitive_landscape": {
+        "market_leaders": [
+          {
+            "name": "Individual Researchers (Takaaki Wajima, K. Yamashita)",
+            "description": "Key academic contributors pioneering the alkali molten hydroxide recycling process for carbon fiber recovery."
+          }
+        ],
+        "emerging_challengers": [],
+        "academic_hubs": [
+          {
+            "name": "Japanese Research Institutions",
+            "description": "Likely centers of development given the researchers' origin and publication sources."
+          }
+        ],
+        "geographic_concentration": [
+          "Japan"
+        ],
+        "ip_landscape": "Open to lightly fragmented, with no significant patents filed yet, providing an opportunity for early IP establishment.",
+        "barriers_to_entry": [
+          "Technical complexity of alkali molten hydroxide processing",
+          "Scaling laboratory processes to industrial scale",
+          "Integration into existing carbon fiber supply and recycling chains",
+          "Capital requirements for process development and facility setup"
+        ],
+        "partnership_opportunities": [
+          "Carbon fiber manufacturers seeking sustainable end-of-life solutions",
+          "Composite materials producers",
+          "Recycling companies focusing on composite waste",
+          "Sustainability-focused investment funds"
+        ],
+        "acquisition_targets": [],
+        "competitive_intensity": 3,
+        "market_timing": "early",
+        "white_space_opportunities": [
+          "Developing scalable, cost-effective industrial recycling processes",
+          "Closed-loop recycling systems for specific industries (automotive, aerospace)",
+          "Hybrid mechanical and chemical recycling methods combining alkali molten hydroxide",
+          "Integration with circular economy initiatives and regulatory compliance"
+        ]
+      },
+      "overall_recommendation": {
+        "overall_score": 6.6,
+        "recommended_action": "monitor_and_pilot",
+        "priority": "medium",
+        "investment_recommendation": "partner",
+        "time_sensitivity": "important"
+      }
+    },
+    {
+      "technology": {
+        "name": "advanced_nanomaterial_membranes_for_co2_capture",
+        "title": "Advanced Nanomaterial Membranes for CO2 Capture",
+        "description": "Graphene oxide-based membranes developed for efficient post-combustion CO2 capture, offering potential for improved gas separation performance and environmental sustainability.",
+        "key_capabilities": [
+          "Selective CO2 capture",
+          "High permeability",
+          "Energy-efficient gas separation"
+        ],
+        "source_types": [
+          "paper",
+          "news"
+        ],
+        "key_players": [
+          "Shiguang Li",
+          "Miao Yu",
+          "Fan Wang"
+        ],
+        "maturity_estimate": "emerging",
+        "potential_impact": 7,
+        "strategic_relevance": 7,
+        "key_references": [
+          "Bench-scale Development of a Transformational Graphene Oxide-based Membrane Process for Post-combustion CO2 Capture",
+          "New Nanomaterial Offers Breakthrough in Energy Storage and Environmental Sustainability - shinshu-u.ac.jp"
+        ],
+        "timeline_estimate": 5
+      },
+      "evaluation_date": "2026-01-15T02:34:24.993621",
+      "maturity_assessment": {
+        "trl_level": 4,
+        "trl_description": "Component and/or breadboard validation in laboratory environment",
+        "maturity_stage": "applied_research",
+        "evidence_strength": 6,
+        "key_milestones_achieved": [
+          "Synthesis of graphene oxide-based membranes",
+          "Bench-scale testing demonstrating selective CO2 capture",
+          "Validation of high permeability and energy-efficient gas separation in laboratory"
+        ],
+        "remaining_challenges": [
+          "Scaling up fabrication processes for membrane production",
+          "Demonstrating membrane durability and long-term operational stability",
+          "Integration into full CO2 capture systems and pilot demonstrations",
+          "Filing patents and securing intellectual property",
+          "Economic feasibility and cost reduction for commercial viability"
+        ],
+        "estimated_years_to_market": 5,
+        "confidence": 7,
+        "rationale": "The technology is beyond basic research with bench-scale validation but lacks pilot-scale demonstration, patents, or commercialization evidence. It is therefore assessed at TRL 4 with applied research maturity, supported by academic publications but still requiring development and demonstration for market readiness."
+      },
+      "strategic_fit": {
+        "overall_fit_score": 7,
+        "alignment_with_priorities": {
+          "Innovation": 8,
+          "Growth": 7,
+          "Efficiency": 7
+        },
+        "capability_gaps": [
+          "Nanomaterials expertise",
+          "Membrane fabrication technology",
+          "Gas separation process engineering",
+          "Carbon capture systems integration"
+        ],
+        "build_vs_buy_recommendation": "partner",
+        "investment_type": "exploratory",
+        "recommended_investment_level": "moderate",
+        "key_risks": [
+          "Emerging technology maturity and scalability",
+          "High R&D and commercialization costs",
+          "Integration challenges with existing infrastructure",
+          "Market and regulatory uncertainties in carbon capture"
+        ],
+        "key_opportunities": [
+          "Leadership in innovative environmental technologies",
+          "Access to growing carbon capture and sustainability markets",
+          "Improved operational efficiency via energy savings",
+          "Potential for new growth avenues aligned with global decarbonization trends"
+        ],
+        "competitive_advantage_potential": 7,
+        "time_sensitivity": "important",
+        "recommended_actions": [
+          "Initiate partnerships with leading researchers and startups in nanomaterial membranes",
+          "Monitor technology advancements and pilot studies closely",
+          "Develop internal awareness and foundational expertise in nanomaterials and gas separation",
+          "Evaluate potential licensing agreements for early access to IP",
+          "Assess regulatory developments and market demand for CO2 capture technologies"
+        ]
+      },
+      "competitive_landscape": {
+        "market_leaders": [
+          {
+            "name": "Shiguang Li",
+            "description": "Academic leader focusing on graphene oxide membranes for selective CO2 capture."
+          },
+          {
+            "name": "Miao Yu",
+            "description": "Researcher developing high permeability nanomaterial membranes with energy-efficient gas separation."
+          },
+          {
+            "name": "Fan Wang",
+            "description": "Key player contributing to transformational graphene oxide-based membrane processes."
+          }
+        ],
+        "emerging_challengers": [],
+        "academic_hubs": [
+          "Shinshu University (Japan)",
+          "Other leading nanomaterial research institutions in East Asia"
+        ],
+        "geographic_concentration": [
+          "East Asia (notably Japan and China)",
+          "Potential emerging activity in Europe"
+        ],
+        "ip_landscape": "Open and fragmented, with limited patent filings and no dominant IP holders yet.",
+        "barriers_to_entry": [
+          "Technical complexity of membrane fabrication",
+          "Scaling from lab to industrial application",
+          "High R&D investment requirements",
+          "Lack of established commercial supply chains"
+        ],
+        "partnership_opportunities": [
+          "Academic institutions with nanomaterial expertise",
+          "Energy and chemical companies interested in carbon capture",
+          "Membrane manufacturing firms"
+        ],
+        "acquisition_targets": [
+          "Academic spin-offs or startups emerging from leading research groups once validated at pilot scale"
+        ],
+        "competitive_intensity": 5,
+        "market_timing": "early",
+        "white_space_opportunities": [
+          "Scaling and manufacturing process innovation",
+          "Hybrid membrane technologies combining nanomaterials with conventional materials",
+          "Integration solutions for existing industrial CO2 capture infrastructure"
+        ]
+      },
+      "overall_recommendation": {
+        "overall_score": 6.3,
+        "recommended_action": "monitor_and_pilot",
+        "priority": "medium",
+        "investment_recommendation": "partner",
+        "time_sensitivity": "important"
+      }
+    }
+  ],
+  "comparison": {
+    "rankings": [
+      {
+        "name": "carbon_fiber_reinforced_prepreg_resin_composition",
+        "overall_score": 87,
+        "scores_by_criteria": {
+          "strategic_fit": 100,
+          "maturity": 80,
+          "market_potential": 80,
+          "competitive_position": 85,
+          "implementation_feasibility": 75
+        },
+        "key_strengths": [
+          "High strategic relevance and strong market potential",
+          "Short timeline and developing maturity",
+          "Strong existing industrial backing and competitive position"
+        ],
+        "key_weaknesses": [
+          "Implementation requires specialized composite manufacturing",
+          "Moderate market competition"
+        ]
+      },
+      {
+        "name": "solid_state_battery_electrolyte_and_electrode_innovations",
+        "overall_score": 85,
+        "scores_by_criteria": {
+          "strategic_fit": 100,
+          "maturity": 60,
+          "market_potential": 90,
+          "competitive_position": 90,
+          "implementation_feasibility": 70
+        },
+        "key_strengths": [
+          "Very high strategic relevance and market potential",
+          "Strong competitive position with major key players",
+          "Significant impact on energy and safety"
+        ],
+        "key_weaknesses": [
+          "Longer timeline and developmental challenges",
+          "Complex manufacturing and integration issues"
+        ]
+      },
+      {
+        "name": "carbon_fiber_recycling_using_alkali_molten_hydroxide",
+        "overall_score": 77,
+        "scores_by_criteria": {
+          "strategic_fit": 90,
+          "maturity": 50,
+          "market_potential": 80,
+          "competitive_position": 70,
+          "implementation_feasibility": 70
+        },
+        "key_strengths": [
+          "High sustainability alignment and strategic relevance",
+          "Emerging technology with good market potential",
+          "Supports circular economy and waste reduction"
+        ],
+        "key_weaknesses": [
+          "Emerging maturity with process scale-up challenges",
+          "Less established competitive position"
+        ]
+      },
+      {
+        "name": "multilayer_reflective_film_for_display_applications",
+        "overall_score": 73,
+        "scores_by_criteria": {
+          "strategic_fit": 80,
+          "maturity": 80,
+          "market_potential": 70,
+          "competitive_position": 75,
+          "implementation_feasibility": 65
+        },
+        "key_strengths": [
+          "Good maturity and short timeline",
+          "Moderate strategic relevance for display sectors",
+          "Established patent protection"
+        ],
+        "key_weaknesses": [
+          "Niche market with moderate growth potential",
+          "Lower overall impact compared to other technologies"
+        ]
+      },
+      {
+        "name": "advanced_nanomaterial_membranes_for_co2_capture",
+        "overall_score": 68,
+        "scores_by_criteria": {
+          "strategic_fit": 70,
+          "maturity": 50,
+          "market_potential": 70,
+          "competitive_position": 65,
+          "implementation_feasibility": 70
+        },
+        "key_strengths": [
+          "Strong environmental sustainability focus",
+          "Emerging technology with potential for energy-efficient CO2 capture"
+        ],
+        "key_weaknesses": [
+          "Lower strategic relevance for broad portfolios",
+          "Longer timeline and early-stage maturity",
+          "Challenging scale-up and industrial adoption"
+        ]
+      }
+    ],
+    "recommended_portfolio": [
+      "carbon_fiber_reinforced_prepreg_resin_composition",
+      "solid_state_battery_electrolyte_and_electrode_innovations",
+      "carbon_fiber_recycling_using_alkali_molten_hydroxide"
+    ],
+    "prioritization_rationale": "The top priority technologies balance high strategic relevance and potential impact with feasible timelines and solid competitive positioning. Carbon fiber prepreg resin composition leads due to its near-term maturity and broad applications in advanced composites. Solid-state battery innovations follow closely because of their transformative potential in energy storage despite longer development timelines. Carbon fiber recycling is prioritized for sustainability and emerging circular economy value, complementing the portfolio with environmental impact. Multilayer reflective films and nanomaterial membranes, while promising, have narrower applications or earlier maturity and are recommended for monitoring or pilot investments.",
+    "resource_allocation_suggestion": "Allocate approximately 45% of resources to carbon fiber prepreg resin development to capitalize on near-term commercialization opportunities. Dedicate 40% to solid-state battery innovations reflecting their strategic importance and market potential, balancing R&D and pilot manufacturing investments. Assign 15% to carbon fiber recycling technologies to support sustainability initiatives and technology maturation. Maintain observational funding for other technologies with potential for future scaling."
+  }
+}

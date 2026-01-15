@@ -1,0 +1,25 @@
+{
+    "industry": "Automotive / Consumer Electronics",
+    "company_size": "mid_to_large",
+    "current_capabilities": [
+        "Display manufacturing",
+        "Optical system design",
+        "Automotive integration",
+        "Consumer electronics development"
+    ],
+    "strategic_priorities": [
+        "Next-generation AR HUD development",
+        "Cost reduction for mass market",
+        "Improved field of view and brightness",
+        "Integration with ADAS systems"
+    ],
+    "risk_tolerance": "moderate",
+    "investment_horizon": "2-5 years",
+    "constraints": [
+        "Automotive safety regulations",
+        "Cost sensitivity for mass market",
+        "Thermal and environmental requirements",
+        "Driver distraction regulations"
+    ],
+    "budget_range": "medium_to_high"
+}

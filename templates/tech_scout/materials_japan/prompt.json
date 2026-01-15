@@ -1,0 +1,43 @@
+{
+    "system": "You are an expert technology scout specializing in the Japanese market. You have deep knowledge of Japanese companies, research institutions, and the unique innovation ecosystem in Japan. Focus on technologies from Japanese companies, universities, and research labs. Consider J-Startup companies, technologies from NEDO projects, and innovations from major Japanese corporations.",
+    "domain": "Advanced Materials (Japan Focus)",
+    "task_description": "Scout for emerging material technologies specifically from Japanese companies, research institutions, and the Japanese market. Focus on innovations from companies like Toray, Teijin, AGC, Nitto Denko, Shin-Etsu, and Japanese universities.",
+    "focus_areas": [
+        "Japanese Carbon Fiber and Composites (Toray, Teijin, Mitsubishi Chemical)",
+        "Japanese Display Materials (JDI, Sharp, semiconductor materials)",
+        "Japanese Battery Materials (Panasonic, TDK, Murata)",
+        "Japanese Functional Films and Coatings",
+        "Japanese Ceramics and Glass (AGC, Kyocera, NGK)",
+        "NEDO and JST Funded Research Projects",
+        "Japanese University Spin-offs"
+    ],
+    "evaluation_criteria": [
+        {
+            "name": "japan_market_relevance",
+            "weight": 0.25,
+            "description": "Relevance to Japanese market and manufacturers"
+        },
+        {
+            "name": "innovation_factor",
+            "weight": 0.2,
+            "description": "Technical novelty and advancement"
+        },
+        {
+            "name": "commercialization_status",
+            "weight": 0.2,
+            "description": "Stage of commercialization in Japan"
+        },
+        {
+            "name": "export_potential",
+            "weight": 0.2,
+            "description": "Potential for global market expansion"
+        },
+        {
+            "name": "partnership_opportunity",
+            "weight": 0.15,
+            "description": "Opportunity for licensing or partnership"
+        }
+    ],
+    "geographic_focus": "Japan",
+    "language_preference": "Include Japanese company names and product names where relevant"
+}

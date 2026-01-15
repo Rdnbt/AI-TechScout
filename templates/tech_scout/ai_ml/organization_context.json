@@ -1,24 +1,46 @@
 {
-    "industry": "Technology",
+    "industry": "Technology / Japan Market Entry",
     "company_size": "enterprise",
+    "target_market": "Japan",
     "current_capabilities": [
+        "Global AI/ML product portfolio",
         "Cloud infrastructure",
-        "Data engineering",
-        "Traditional machine learning",
-        "Web and mobile development"
+        "Enterprise software deployment",
+        "International business development"
     ],
     "strategic_priorities": [
-        "AI-powered product innovation",
-        "Operational efficiency through automation",
-        "Customer experience enhancement",
-        "Data-driven decision making"
+        "Japan market entry and expansion",
+        "Partnership with Japanese corporations (keiretsu)",
+        "Localization for Japanese language and business culture",
+        "Alignment with Society 5.0 government initiatives",
+        "Manufacturing and robotics AI deployment"
+    ],
+    "japan_market_considerations": [
+        "Japanese language NLP requirements",
+        "On-premise deployment preferences",
+        "Long sales cycles with relationship building",
+        "Quality and reliability expectations (品質)",
+        "Data sovereignty and localization requirements"
+    ],
+    "key_verticals_japan": [
+        "Manufacturing (monozukuri)",
+        "Automotive (Toyota, Honda, Nissan ecosystem)",
+        "Healthcare and eldercare",
+        "Financial services (megabanks, regional banks)",
+        "Retail and e-commerce"
     ],
     "risk_tolerance": "moderate",
-    "investment_horizon": "2-4 years",
+    "investment_horizon": "3-5 years",
     "constraints": [
-        "Data privacy and compliance requirements",
-        "Integration with legacy systems",
-        "Limited ML engineering talent"
+        "Japanese language capabilities required",
+        "Local data center / on-premise options needed",
+        "Regulatory compliance (APPI, AI guidelines)",
+        "Need for local partners and system integrators"
     ],
-    "budget_range": "medium_to_high"
+    "budget_range": "medium_to_high",
+    "partnership_targets": [
+        "NTT Data, Fujitsu, NEC (system integrators)",
+        "Major trading houses (sogo shosha)",
+        "JETRO and government programs"
+    ]
 }

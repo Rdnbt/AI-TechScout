@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Torayca Carbon Fiber (Toray)",
+    "description": "World-leading PAN-based carbon fiber. Used in Boeing 787, automotive, and sporting goods. Toray has 40%+ global market share.",
+    "maturity": "mature",
+    "category": "carbon_fiber",
+    "company": "Toray Industries",
+    "market_position": "global_leader"
+  },
+  {
+    "name": "Shin-Etsu Silicone Wafers",
+    "description": "Largest semiconductor silicon wafer producer globally. Critical for semiconductor supply chain.",
+    "maturity": "mature",
+    "category": "semiconductors",
+    "company": "Shin-Etsu Chemical",
+    "market_position": "global_leader"
+  },
+  {
+    "name": "AGC Dragontrail Glass",
+    "description": "Chemically strengthened aluminosilicate glass for smartphones and displays. Competes with Corning Gorilla Glass.",
+    "maturity": "mature",
+    "category": "specialty_glass",
+    "company": "AGC Inc",
+    "market_position": "top_3_global"
+  },
+  {
+    "name": "Nitto Denko Optical Films",
+    "description": "Polarizing films, retardation films for LCD/OLED displays. Essential for display manufacturing.",
+    "maturity": "mature",
+    "category": "optical_films",
+    "company": "Nitto Denko",
+    "market_position": "global_leader"
+  },
+  {
+    "name": "Kuraray EVAL EVOH Barrier",
+    "description": "Ethylene vinyl alcohol barrier resin for food packaging. Prevents oxygen permeation.",
+    "maturity": "mature",
+    "category": "barrier_materials",
+    "company": "Kuraray",
+    "market_position": "global_leader"
+  },
+  {
+    "name": "TDK MLCC Ceramics",
+    "description": "Multilayer ceramic capacitors - essential passive component for all electronics. MLCC demand growing with EVs.",
+    "maturity": "mature",
+    "category": "electronic_ceramics",
+    "company": "TDK Corporation",
+    "market_position": "top_3_global"
+  },
+  {
+    "name": "Sumitomo Metal Mining Battery Materials",
+    "description": "Cathode materials (NMC, NCA) for lithium-ion batteries. Key EV battery material supplier.",
+    "maturity": "growth",
+    "category": "battery_materials",
+    "company": "Sumitomo Metal Mining",
+    "market_position": "top_5_global"
+  },
+  {
+    "name": "Mitsubishi Gas Chemical BT Resin",
+    "description": "Bismaleimide-triazine resin for high-frequency PCB substrates. Used in 5G and server applications.",
+    "maturity": "growth",
+    "category": "electronic_materials",
+    "company": "Mitsubishi Gas Chemical",
+    "market_position": "specialty_leader"
+  },
+  {
+    "name": "Teijin Tenax Carbon Fiber",
+    "description": "PAN-based carbon fiber for automotive and aerospace. Teijin also produces Twaron aramid fiber.",
+    "maturity": "mature",
+    "category": "carbon_fiber",
+    "company": "Teijin Limited",
+    "market_position": "top_3_global"
+  },
+  {
+    "name": "JSR Semiconductor Materials",
+    "description": "Photoresists, CMP materials for semiconductor manufacturing. Essential for chip production.",
+    "maturity": "mature",
+    "category": "semiconductor_materials",
+    "company": "JSR Corporation",
+    "market_position": "top_3_global"
+  },
+  {
+    "name": "Mitsui Chemicals Tafmer",
+    "description": "Alpha-olefin copolymer elastomers for automotive and packaging applications.",
+    "maturity": "mature",
+    "category": "specialty_polymers",
+    "company": "Mitsui Chemicals",
+    "market_position": "specialty_leader"
+  },
+  {
+    "name": "Denka Acetylene Black",
+    "description": "Conductive carbon black for lithium-ion battery anodes. High purity specialty carbon.",
+    "maturity": "growth",
+    "category": "battery_materials",
+    "company": "Denka Company",
+    "market_position": "specialty_leader"
+  },
+  {
+    "name": "Resonac (Showa Denko) SiC",
+    "description": "Silicon carbide wafers for power semiconductors. Critical for EV power electronics.",
+    "maturity": "growth",
+    "category": "wide_bandgap_semiconductors",
+    "company": "Resonac Holdings",
+    "market_position": "top_3_global"
+  },
+  {
+    "name": "Nippon Steel Super Core",
+    "description": "Non-oriented electrical steel for EV motors. High efficiency magnetic properties.",
+    "maturity": "growth",
+    "category": "magnetic_materials",
+    "company": "Nippon Steel",
+    "market_position": "top_3_global"
+  },
+  {
+    "name": "Ube Industries Polyimide",
+    "description": "UPILEX polyimide films for flexible PCBs and aerospace. High heat resistance.",
+    "maturity": "mature",
+    "category": "specialty_films",
+    "company": "Ube Industries",
+    "market_position": "global_leader"
+  }
+]

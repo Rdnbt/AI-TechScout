@@ -21,6 +21,7 @@ from tech_scout.llm import get_response_from_llm, extract_json_between_markers
 S2_API_KEY = os.getenv("S2_API_KEY")
 SERPAPI_KEY = os.getenv("SERPAPI_KEY")
 GOOGLE_NEWS_API_KEY = os.getenv("GOOGLE_NEWS_API_KEY")
+JSTAGE_AFFILIATE_ID = os.getenv("JSTAGE_AFFILIATE_ID", "")  # Optional for J-STAGE
 
 # =============================================================================
 # PROMPTS FOR TECHNOLOGY SCOUTING
@@ -300,6 +301,203 @@ def search_papers_openalex(
             continue
     
     return formatted_papers
+
+
+# =============================================================================
+# J-STAGE SEARCH (Japanese Academic Papers)
+# =============================================================================
+
+@backoff.on_exception(
+    backoff.expo, requests.exceptions.RequestException, max_tries=3
+)
+def search_papers_jstage(
+    query: str,
+    year_start: Optional[int] = None,
+    year_end: Optional[int] = None,
+    limit: int = 50,
+    lang: str = "en",
+) -> List[Dict]:
+    """
+    Search for Japanese academic papers using J-STAGE API.
+    J-STAGE is operated by JST (Japan Science and Technology Agency).
+    
+    API docs: https://www.jstage.jst.go.jp/static/pages/JstageServices/TAB3/-char/en
+    Free to use, no API key required.
+    
+    Args:
+        query: Search query (can be English or Japanese)
+        year_start: Filter papers from this year
+        year_end: Filter papers until this year
+        limit: Maximum number of results
+        lang: Language preference ("en" or "ja")
+    """
+    if year_start is None:
+        year_start = datetime.now().year - 3
+    if year_end is None:
+        year_end = datetime.now().year
+    
+    base_url = "https://api.jstage.jst.go.jp/searchapi/do"
+    
+    params = {
+        "service": "3",  # Full-text search
+        "pubyearfrom": str(year_start),
+        "pubyearto": str(year_end),
+        "count": str(min(limit, 1000)),
+        "keyword": query,
+    }
+    
+    # Add affiliate ID if available (improves rate limits)
+    if JSTAGE_AFFILIATE_ID:
+        params["affiliate"] = JSTAGE_AFFILIATE_ID
+    
+    headers = {
+        "User-Agent": "AI-TechScout/1.0",
+        "Accept": "application/xml",
+    }
+    
+    response = requests.get(base_url, params=params, headers=headers, timeout=30)
+    response.raise_for_status()
+    
+    # Parse XML response
+    import xml.etree.ElementTree as ET
+    
+    try:
+        root = ET.fromstring(response.content)
+    except ET.ParseError:
+        print("  J-STAGE returned invalid XML")
+        return []
+    
+    # J-STAGE returns OpenSearch format
+    ns = {
+        'atom': 'http://www.w3.org/2005/Atom',
+        'prism': 'http://prismstandard.org/namespaces/basic/2.0/',
+    }
+    
+    formatted_papers = []
+    
+    for entry in root.findall('.//entry', ns) or root.findall('.//item'):
+        try:
+            # Try different XML structures
+            title = ""
+            abstract = ""
+            authors = []
+            year = None
+            doi = ""
+            journal = ""
+            
+            # Get title
+            title_elem = entry.find('title') or entry.find('.//{http://www.w3.org/2005/Atom}title')
+            if title_elem is not None and title_elem.text:
+                title = title_elem.text.strip()
+            
+            # Get abstract/description
+            for tag in ['abstract', 'description', 'summary', 
+                       '{http://prismstandard.org/namespaces/basic/2.0/}abstract',
+                       '{http://www.w3.org/2005/Atom}summary']:
+                elem = entry.find(tag)
+                if elem is not None and elem.text:
+                    abstract = elem.text.strip()
+                    break
+            
+            # Get authors
+            for author_tag in ['author', '{http://www.w3.org/2005/Atom}author', 'creator']:
+                for author in entry.findall(author_tag):
+                    name_elem = author.find('name') or author.find('{http://www.w3.org/2005/Atom}name')
+                    if name_elem is not None and name_elem.text:
+                        authors.append(name_elem.text.strip())
+                    elif author.text:
+                        authors.append(author.text.strip())
+            
+            # Get year
+            for date_tag in ['pubdate', '{http://prismstandard.org/namespaces/basic/2.0/}publicationDate',
+                            'published', '{http://www.w3.org/2005/Atom}published']:
+                date_elem = entry.find(date_tag)
+                if date_elem is not None and date_elem.text:
+                    try:
+                        year = int(date_elem.text[:4])
+                    except (ValueError, TypeError):
+                        pass
+                    break
+            
+            # Get DOI
+            for id_tag in ['doi', 'id', '{http://prismstandard.org/namespaces/basic/2.0/}doi']:
+                id_elem = entry.find(id_tag)
+                if id_elem is not None and id_elem.text:
+                    doi = id_elem.text.strip()
+                    if 'doi.org' in doi or doi.startswith('10.'):
+                        break
+            
+            # Get journal name
+            for journal_tag in ['cdjournal', '{http://prismstandard.org/namespaces/basic/2.0/}publicationName',
+                               'source']:
+                journal_elem = entry.find(journal_tag)
+                if journal_elem is not None and journal_elem.text:
+                    journal = journal_elem.text.strip()
+                    break
+            
+            if title:  # Only add if we at least have a title
+                formatted_papers.append({
+                    "title": title,
+                    "abstract": abstract[:1000] if abstract else "",
+                    "authors": authors[:10],  # Limit authors
+                    "year": year,
+                    "citations": 0,  # J-STAGE doesn't provide citation counts
+                    "venue": journal,
+                    "doi": doi,
+                    "source": "jstage",
+                    "region": "Japan",
+                })
+        except Exception:
+            # Skip malformed entries
+            continue
+    
+    return formatted_papers
+
+
+# =============================================================================
+# COMBINED PAPER SEARCH (with Japan option)
+# =============================================================================
+
+def search_papers_all(
+    query: str,
+    year_start: Optional[int] = None,
+    year_end: Optional[int] = None,
+    limit: int = 50,
+    include_japan: bool = False,
+    fields_of_study: Optional[List[str]] = None,
+) -> List[Dict]:
+    """
+    Search papers from multiple sources, optionally including Japanese sources.
+    
+    Args:
+        query: Search query
+        year_start: Filter from year
+        year_end: Filter to year
+        limit: Max results per source
+        include_japan: If True, also search J-STAGE for Japanese papers
+        fields_of_study: Optional list of fields to filter by
+    
+    Returns:
+        Combined list of papers from all sources
+    """
+    all_papers = []
+    
+    # Always search global sources
+    global_papers = search_papers(query, year_start, year_end, limit, fields_of_study)
+    all_papers.extend(global_papers)
+    
+    # Add Japanese sources if requested
+    if include_japan:
+        try:
+            print(f"  Searching J-STAGE (Japan) for: {query[:50]}...")
+            jstage_papers = search_papers_jstage(query, year_start, year_end, limit // 2)
+            all_papers.extend(jstage_papers)
+            print(f"  Found {len(jstage_papers)} papers from J-STAGE")
+        except Exception as e:
+            print(f"  J-STAGE search failed: {e}")
+    
+    return all_papers
+
 
 # =============================================================================
 # PATENT SEARCH
@@ -615,8 +813,95 @@ def search_news_newsapi(
         })
     
     return formatted_articles
+
+
+# =============================================================================
+# JAPAN-SPECIFIC NEWS SEARCH
+# =============================================================================
+
+def search_news_japan(
+    query: str,
+    days_back: int = 90,
+    limit: int = 30,
+) -> List[Dict]:
+    """
+    Search for news from Japan-focused sources.
+    Uses Google News Japan + supplementary Japanese tech news sources.
+    """
+    all_articles = []
+    
+    # 1. Google News Japan RSS (Japanese results)
+    try:
+        jp_articles = search_news_google_rss_japan(query, limit // 2)
+        all_articles.extend(jp_articles)
+    except Exception as e:
+        print(f"  Google News Japan failed: {e}")
+    
+    # 2. Try general Google News with Japan context
+    try:
+        japan_query = f"{query} Japan Japanese"
+        global_jp_articles = search_news_google_rss(japan_query, limit // 2)
+        all_articles.extend(global_jp_articles)
+    except Exception as e:
+        print(f"  Google News global Japan failed: {e}")
+    
+    # Remove duplicates based on title
+    seen_titles = set()
+    unique_articles = []
+    for article in all_articles:
+        title_lower = article.get("title", "").lower()
+        if title_lower and title_lower not in seen_titles:
+            seen_titles.add(title_lower)
+            unique_articles.append(article)
+    
+    return unique_articles[:limit]
+
+
+def search_news_google_rss_japan(
+    query: str,
+    limit: int = 30,
+) -> List[Dict]:
+    """
+    Search news using Google News RSS feed with Japan locale.
+    Can search in English or Japanese.
+    """
+    import urllib.parse
+    
+    # Google News RSS endpoint - Japan locale
+    encoded_query = urllib.parse.quote(query)
+    
+    # Use Japan Google News (English interface but Japan news)
+    url = f"https://news.google.com/rss/search?q={encoded_query}&hl=en&gl=JP&ceid=JP:en"
+    
+    headers = {"User-Agent": "AI-TechScout/1.0"}
+    response = requests.get(url, headers=headers, timeout=30)
+    response.raise_for_status()
+    
+    # Parse RSS XML
+    import xml.etree.ElementTree as ET
+    root = ET.fromstring(response.content)
+    
+    formatted_articles = []
+    items = root.findall(".//item")[:limit]
+    
+    for item in items:
+        title = item.find("title")
+        link = item.find("link")
+        pub_date = item.find("pubDate")
+        source = item.find("source")
+        
+        formatted_articles.append({
+            "title": title.text if title is not None else "",
+            "description": "",
+            "source": source.text if source is not None else "Google News Japan",
+            "author": "",
+            "published_at": pub_date.text if pub_date is not None else "",
+            "url": link.text if link is not None else "",
+            "region": "Japan",
+        })
     
     return formatted_articles
+
 
 # =============================================================================
 # MAIN SCOUTING FUNCTION
@@ -632,6 +917,7 @@ def scout_technologies(
     skip_search: bool = False,
     num_reflections: int = 3,
     year_lookback: int = 3,
+    region_focus: Optional[str] = None,
 ) -> Dict:
     """
     Main function to scout for emerging technologies in a given domain.
@@ -646,6 +932,7 @@ def scout_technologies(
         skip_search: Skip searching and use cached results
         num_reflections: Number of refinement iterations
         year_lookback: How many years back to search
+        region_focus: Optional region focus (e.g., "japan", "eu", "us")
     
     Returns:
         Dictionary with discovered technologies and analysis
@@ -658,8 +945,21 @@ def scout_technologies(
         with open(results_file, "r") as f:
             return json.load(f)
     
+    # Check template for region focus
+    prompt_file = osp.join(base_dir, "prompt.json")
+    if osp.exists(prompt_file):
+        with open(prompt_file, "r") as f:
+            prompt_config = json.load(f)
+        # Override region_focus from template if not provided
+        if region_focus is None:
+            region_focus = prompt_config.get("region_focus")
+    
+    include_japan = region_focus and region_focus.lower() in ["japan", "jp", "asia"]
+    
     print(f"Starting technology scouting for domain: {domain}")
     print(f"Focus areas: {', '.join(focus_areas)}")
+    if region_focus:
+        print(f"Region focus: {region_focus}")
     
     # Collect data from all sources
     all_papers = []
@@ -672,9 +972,14 @@ def scout_technologies(
     for query in search_queries:
         print(f"\nSearching for: {query}")
         
-        # Search academic papers
+        # Search academic papers (global + region-specific)
         try:
-            papers = search_papers(query, year_start, year_end, limit=30)
+            if include_japan:
+                papers = search_papers_all(
+                    query, year_start, year_end, limit=30, include_japan=True
+                )
+            else:
+                papers = search_papers(query, year_start, year_end, limit=30)
             all_papers.extend(papers)
             print(f"  Found {len(papers)} papers")
             time.sleep(1)  # Rate limiting
@@ -683,7 +988,8 @@ def scout_technologies(
         
         # Search patents
         try:
-            patents = search_patents(query, year_start, limit=20)
+            patent_country = "JP" if include_japan else "US"
+            patents = search_patents(query, year_start, limit=20, country=patent_country)
             all_patents.extend(patents)
             print(f"  Found {len(patents)} patents")
             time.sleep(1)
@@ -692,7 +998,10 @@ def scout_technologies(
         
         # Search news
         try:
-            news = search_news(query, days_back=180, limit=20)
+            if include_japan:
+                news = search_news_japan(query, days_back=180, limit=20)
+            else:
+                news = search_news(query, days_back=180, limit=20)
             all_news.extend(news)
             print(f"  Found {len(news)} news articles")
             time.sleep(1)

@@ -1,0 +1,16 @@
+[
+    {
+        "name": "combiner_hud",
+        "title": "Traditional Combiner HUD",
+        "description": "Basic HUD using a combiner glass to reflect projected image",
+        "status": "mature",
+        "notes": "Standard in many vehicles, limited FOV"
+    },
+    {
+        "name": "windshield_hud",
+        "title": "Windshield Projection HUD",
+        "description": "Projects directly onto windshield with special coating",
+        "status": "deployed",
+        "notes": "Used in premium vehicles"
+    }
+]

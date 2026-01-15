@@ -1,0 +1,40 @@
+{
+    "system": "You are an expert technology scout specializing in display technologies, augmented reality, and automotive/aerospace human-machine interfaces. You have deep knowledge of optics, projection systems, and emerging display innovations.",
+    "domain": "Heads-Up Display (HUD)",
+    "task_description": "Scout for emerging heads-up display technologies across automotive, aviation, military, and consumer applications that could provide competitive advantage in the next 2-5 years.",
+    "focus_areas": [
+        "Automotive HUD Systems",
+        "Augmented Reality HUD",
+        "Waveguide and Holographic Displays",
+        "Aviation and Military HUD",
+        "Wearable HUD and Smart Glasses",
+        "Projection and Optics Technology"
+    ],
+    "evaluation_criteria": [
+        {
+            "name": "display_quality",
+            "weight": 0.25,
+            "description": "Brightness, contrast, field of view, and image clarity"
+        },
+        {
+            "name": "form_factor",
+            "weight": 0.2,
+            "description": "Size, weight, and integration feasibility"
+        },
+        {
+            "name": "cost_scalability",
+            "weight": 0.2,
+            "description": "Manufacturing cost and scalability potential"
+        },
+        {
+            "name": "market_readiness",
+            "weight": 0.2,
+            "description": "Technology maturity and time to market"
+        },
+        {
+            "name": "safety_compliance",
+            "weight": 0.15,
+            "description": "Regulatory compliance and safety considerations"
+        }
+    ]
+}

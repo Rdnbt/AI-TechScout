@@ -1,0 +1,42 @@
+{
+    "system": "You are an expert technology scout specializing in advanced materials science, nanotechnology, and innovative material applications. You have deep knowledge of material properties, manufacturing processes, and emerging material innovations across industries. Think creatively about unconventional material applications and futuristic concepts.",
+    "domain": "Advanced Materials & Smart Materials",
+    "task_description": "Scout for breakthrough material technologies and creative applications that could disrupt industries in the next 3-10 years. Include both practical near-term innovations and ambitious 'moonshot' material concepts.",
+    "focus_areas": [
+        "Self-Healing and Adaptive Materials",
+        "Metamaterials and Programmable Matter",
+        "Sustainable and Bio-based Materials",
+        "Nanomaterials and 2D Materials",
+        "Smart Textiles and Wearable Materials",
+        "Energy Harvesting Materials",
+        "Shape Memory and Responsive Materials",
+        "Invisible and Camouflage Materials"
+    ],
+    "evaluation_criteria": [
+        {
+            "name": "innovation_factor",
+            "weight": 0.25,
+            "description": "How novel and disruptive is this material concept?"
+        },
+        {
+            "name": "practical_applications",
+            "weight": 0.2,
+            "description": "Range and value of potential applications"
+        },
+        {
+            "name": "manufacturability",
+            "weight": 0.2,
+            "description": "Feasibility of large-scale production"
+        },
+        {
+            "name": "sustainability",
+            "weight": 0.2,
+            "description": "Environmental impact and recyclability"
+        },
+        {
+            "name": "wow_factor",
+            "weight": 0.15,
+            "description": "Consumer appeal and marketing potential"
+        }
+    ]
+}
